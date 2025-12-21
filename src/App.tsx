@@ -39,7 +39,7 @@ function App() {
             path="/messenger/donors"
             element={
               <DashboardLayout requiredRole="messenger">
-                <ComingSoon title="התורמים שלי" />
+                <ComingSoon title="תורמים תחתיי" />
               </DashboardLayout>
             }
           />
