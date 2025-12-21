@@ -9,7 +9,7 @@ import { Button } from '../../components/shared/Button';
 // Mock data
 const mockAdminStats = {
   totalMessengers: 127,
-  totalMembers: 1834,
+  totalDonors: 1834,
   activeSubscriptions: 1621,
   monthlyRecurringRevenue: 48630,
   churnRate: 2.8,
@@ -59,7 +59,7 @@ const mockMembers = [
 ];
 
 export function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'messengers' | 'members' | 'prayers'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'messengers' | 'donors' | 'prayers'>('overview');
   
   return (
     <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
@@ -77,8 +77,8 @@ export function AdminDashboard() {
           trend={{ value: 8.2, isPositive: true }}
         />
         <StatsCard
-          title="מצטרפים"
-          value={mockAdminStats.totalMembers}
+          title="תורמים"
+          value={mockAdminStats.totalDonors}
           icon={Users}
           trend={{ value: 12.5, isPositive: true }}
         />
@@ -131,14 +131,14 @@ export function AdminDashboard() {
               שליחים
             </button>
             <button
-              onClick={() => setActiveTab('members')}
+              onClick={() => setActiveTab('donors')}
               className={`px-4 py-3 border-b-2 font-medium transition-colors ${
-                activeTab === 'members'
+                activeTab === 'donors'
                   ? 'border-indigo-600 text-indigo-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
-              מצטרפים
+              תורמים
             </button>
             <button
               onClick={() => setActiveTab('prayers')}
@@ -157,10 +157,10 @@ export function AdminDashboard() {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-lg">
+                  <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-2">צמיחה חודשית</h3>
                   <div className="text-3xl font-bold text-indigo-600">+12.5%</div>
-                  <p className="text-sm text-gray-600 mt-2">מצטרפים חדשים החודש: 228</p>
+                  <p className="text-sm text-gray-600 mt-2">תורמים חדשים החודש: 228</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg">
@@ -230,14 +230,14 @@ export function AdminDashboard() {
             </div>
           )}
           
-          {activeTab === 'members' && (
+          {activeTab === 'donors' && (
             <div>
               <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-gray-600">סה''כ {mockMembers.length} מצטרפים</p>
+                <p className="text-sm text-gray-600">סה''כ {mockMembers.length} תורמים</p>
                 <div className="flex gap-2">
                   <input
                     type="search"
-                    placeholder="חפש מצטרף..."
+                    placeholder="חפש תורם..."
                     className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
                   />
                   <Button size="sm">ייצוא</Button>

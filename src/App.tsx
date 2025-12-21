@@ -3,7 +3,6 @@ import { AuthProvider } from './contexts/AuthContext';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { Login } from './pages/auth/Login';
 import { MessengerDashboard } from './pages/messenger/Dashboard';
-import { MemberDashboard } from './pages/member/Dashboard';
 import { AdminDashboard } from './pages/admin/Dashboard';
 
 // Placeholder component for routes not yet implemented
@@ -37,10 +36,10 @@ function App() {
             }
           />
           <Route
-            path="/messenger/members"
+            path="/messenger/donors"
             element={
               <DashboardLayout requiredRole="messenger">
-                <ComingSoon title="ניהול מצטרפים" />
+                <ComingSoon title="התורמים שלי" />
               </DashboardLayout>
             }
           />
@@ -61,31 +60,9 @@ function App() {
             }
           />
           
-          {/* Member routes - NO LOGIN REQUIRED (demo mode) */}
-          <Route
-            path="/member/dashboard"
-            element={
-              <DashboardLayout requiredRole="member">
-                <MemberDashboard />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/member/prayers"
-            element={
-              <DashboardLayout requiredRole="member">
-                <ComingSoon title="התפילות שלי" />
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/member/settings"
-            element={
-              <DashboardLayout requiredRole="member">
-                <ComingSoon title="הגדרות מצטרף" />
-              </DashboardLayout>
-            }
-          />
+          {/* Donors/Members - NO DASHBOARD ACCESS
+              They only pay via external WordPress/Cardcom and are registered in DB
+              Only when they buy Tefillin Stand, they become messengers and get access */}
           
           {/* Admin routes */}
           <Route
@@ -105,10 +82,10 @@ function App() {
             }
           />
           <Route
-            path="/admin/members"
+            path="/admin/donors"
             element={
               <DashboardLayout requiredRole="admin">
-                <ComingSoon title="ניהול מצטרפים" />
+                <ComingSoon title="ניהול תורמים" />
               </DashboardLayout>
             }
           />

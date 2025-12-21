@@ -76,7 +76,7 @@ export function Login() {
         
         <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
           <p className="text-xs sm:text-sm text-gray-600 mb-3 text-center">התחברות מהירה לפיתוח:</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <Button 
               variant="secondary" 
               onClick={() => handleMockLogin('messenger')}
@@ -87,22 +87,16 @@ export function Login() {
             </Button>
             <Button 
               variant="secondary" 
-              onClick={() => navigate('/member/dashboard')}
-              className="w-full text-xs sm:text-sm"
-              size="sm"
-            >
-              מצטרף
-            </Button>
-            <Button 
-              variant="secondary" 
               onClick={() => handleMockLogin('admin')}
               className="w-full text-xs sm:text-sm"
               size="sm"
             >
-              מנהל
+              עמית (מנהל)
             </Button>
           </div>
-          <p className="text-xs text-gray-500 mt-2 text-center">* מצטרף - ללא צורך בהתחברות (דמו)</p>
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            * תורמים לא נכנסים למערכת - הם משלמים דרך Cardcom חיצוני
+          </p>
         </div>
       </Card>
     </div>

@@ -20,19 +20,14 @@ interface DashboardLayoutProps {
 const navItemsByRole = {
   messenger: [
     { to: '/messenger/dashboard', icon: LayoutDashboard, label: 'לוח בקרה' },
-    { to: '/messenger/members', icon: Users, label: 'המצטרפים שלי' },
+    { to: '/messenger/donors', icon: Users, label: 'תורמים תחתיי' },
     { to: '/messenger/prayers', icon: Heart, label: 'רשימת תפילות' },
     { to: '/messenger/settings', icon: Settings, label: 'הגדרות' },
-  ],
-  member: [
-    { to: '/member/dashboard', icon: LayoutDashboard, label: 'לוח בקרה' },
-    { to: '/member/prayers', icon: Heart, label: 'התפילות שלי' },
-    { to: '/member/settings', icon: Settings, label: 'הגדרות' },
   ],
   admin: [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: 'סקירה כללית' },
     { to: '/admin/messengers', icon: UserCheck, label: 'ניהול שליחים' },
-    { to: '/admin/members', icon: Users, label: 'ניהול מצטרפים' },
+    { to: '/admin/donors', icon: Users, label: 'ניהול תורמים' },
     { to: '/admin/prayers', icon: Heart, label: 'תפילות' },
     { to: '/admin/campaigns', icon: TrendingUp, label: 'קמפיינים' },
     { to: '/admin/settings', icon: Settings, label: 'הגדרות' },
@@ -53,9 +48,8 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
     );
   }
   
-  // DEMO MODE: For members, allow access without login
-  // For messengers and admins, require login
-  if (requiredRole !== 'member' && (!user || role !== requiredRole)) {
+  // Only messengers and admins have access to the system
+  if (!user || role !== requiredRole) {
     return <Navigate to="/login" replace />;
   }
   

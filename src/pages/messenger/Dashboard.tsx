@@ -9,14 +9,14 @@ import { QRCode } from 'react-qr-code';
 
 // Mock data - will be replaced with real data from Supabase
 const mockStats = {
-  totalMembers: 45,
+  totalDonors: 45,
   activeSubscriptions: 38,
   totalEarned: 3240,
   walletBalance: 1580,
   activePrayers: 127,
 };
 
-const mockMembers = [
+const mockDonors = [
   {
     id: '1',
     name: 'יוסף כהן',
@@ -56,8 +56,8 @@ export function MessengerDashboard() {
       {/* Stats Grid - Mobile: 2 cols, Tablet: 2 cols, Desktop: 4 cols */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
-          title="סה''כ מצטרפים"
-          value={mockStats.totalMembers}
+          title="סה''כ תורמים"
+          value={mockStats.totalDonors}
           icon={Users}
         />
         <StatsCard
@@ -129,17 +129,17 @@ export function MessengerDashboard() {
         </div>
       </Card>
       
-      {/* Members List */}
+      {/* Donors List */}
       <Card
         header={
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">המצטרפים שלי</h2>
-            <Badge variant="info">{mockMembers.length} מצטרפים</Badge>
+            <h2 className="text-xl font-semibold text-gray-900">תורמים תחתיי</h2>
+            <Badge variant="info">{mockDonors.length} תורמים</Badge>
           </div>
         }
       >
         <DataTable
-          data={mockMembers}
+          data={mockDonors}
           columns={[
             { key: 'name', header: 'שם' },
             { key: 'email', header: 'אימייל' },
