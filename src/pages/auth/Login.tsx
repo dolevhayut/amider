@@ -28,12 +28,26 @@ export function Login() {
     }
   };
   
-  const handleMockLogin = (role: 'messenger' | 'member' | 'admin') => {
-    mockLogin(role);
+  const handleMockLogin = async (role: 'messenger' | 'member' | 'admin') => {
+    await mockLogin(role);
     const redirectPath = role === 'admin' ? '/admin/dashboard' : 
                         role === 'messenger' ? '/messenger/dashboard' : 
                         '/member/dashboard';
     navigate(redirectPath);
+  };
+
+  const handleQuickLogin = async (userEmail: string, userPassword: string, redirectPath: string) => {
+    setLoading(true);
+    setError('');
+    try {
+      await login(userEmail, userPassword);
+      navigate(redirectPath);
+    } catch (err) {
+      setError('שגיאה בהתחברות מהירה');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
   
   return (
@@ -77,24 +91,31 @@ export function Login() {
         </form>
         
         <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-          <p className="text-xs sm:text-sm text-gray-600 mb-3 text-center">התחברות מהירה לפיתוח:</p>
+          <p className="text-xs sm:text-sm text-gray-600 mb-3 text-center">התחברות מהירה (פיתוח בלבד):</p>
           <div className="grid grid-cols-2 gap-2">
             <Button 
               variant="secondary" 
-              onClick={() => handleMockLogin('messenger')}
+              onClick={() => handleQuickLogin('amit@ami-dar.co.il', '123456', '/admin/dashboard')}
+              disabled={loading}
               className="w-full text-xs sm:text-sm"
               size="sm"
             >
-              שליח
+              🔐 מנהל
             </Button>
             <Button 
               variant="secondary" 
-              onClick={() => handleMockLogin('admin')}
+              onClick={() => handleQuickLogin('dolevhayut1994@gmail.com', '123456', '/messenger/dashboard')}
+              disabled={loading}
               className="w-full text-xs sm:text-sm"
               size="sm"
             >
-              עמית (מנהל)
+              👤 שליח
             </Button>
+          </div>
+          <div className="mt-2 text-xs text-gray-500 bg-gray-50 p-2 rounded">
+            <p className="font-semibold mb-1">פרטי התחברות:</p>
+            <p>• מנהל: amit@ami-dar.co.il / 123456</p>
+            <p>• שליח: dolevhayut1994@gmail.com / 123456</p>
           </div>
           <p className="text-xs text-gray-500 mt-2 text-center">
             * תורמים לא נכנסים למערכת - הם משלמים דרך Cardcom חיצוני

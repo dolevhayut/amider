@@ -9,7 +9,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  mockLogin: (role: UserRole) => void;
+  mockLogin: (role: UserRole) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,63 +19,120 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<UserRole | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check for mock user in localStorage
-    const mockUser = localStorage.getItem('mockUser');
-    const mockRole = localStorage.getItem('mockRole') as UserRole | null;
-    
-    if (mockUser && mockRole) {
-      setUser(JSON.parse(mockUser));
-      setRole(mockRole);
+  // Fetch user data from our users table
+  const fetchUserData = async (authUserId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', authUserId)
+        .single();
+
+      if (data && !error) {
+        setUser(data);
+        setRole(data.role);
+        return data;
+      } else {
+        console.error('User not found in users table:', error);
+        return null;
+      }
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      return null;
     }
-    
-    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Check current auth session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        fetchUserData(session.user.id);
+      }
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        await fetchUserData(session.user.id);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+        setRole(null);
+      }
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (email: string, password: string) => {
-    // For now, mock login - will implement real auth later
-    console.log('Login attempt:', email, password);
-    
-    // Try to fetch user from database
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single();
+    try {
+      // Sign in with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (data && !error) {
-      setUser(data);
-      setRole(data.role);
-      localStorage.setItem('mockUser', JSON.stringify(data));
-      localStorage.setItem('mockRole', data.role);
-    } else {
-      throw new Error('User not found');
+      if (authError) throw authError;
+
+      if (authData.user) {
+        // Fetch user data from our users table
+        const userData = await fetchUserData(authData.user.id);
+        if (!userData) {
+          throw new Error('User profile not found');
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
     }
   };
 
   const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
     setRole(null);
-    localStorage.removeItem('mockUser');
-    localStorage.removeItem('mockRole');
   };
 
-  const mockLogin = (mockRole: UserRole) => {
-    // For development: quick login as different roles
-    const mockUser: User = {
-      id: `mock-${mockRole}-${Date.now()}`,
-      email: `${mockRole}@example.com`,
-      full_name: `Mock ${mockRole.charAt(0).toUpperCase() + mockRole.slice(1)}`,
-      phone: '050-1234567',
-      role: mockRole,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    
-    setUser(mockUser);
-    setRole(mockRole);
-    localStorage.setItem('mockUser', JSON.stringify(mockUser));
-    localStorage.setItem('mockRole', mockRole);
+  const mockLogin = async (mockRole: UserRole) => {
+    // For development: Sign in with real accounts
+    try {
+      let email = '';
+      let password = '123456';
+      
+      if (mockRole === 'messenger') {
+        email = 'dolevhayut1994@gmail.com';
+      } else if (mockRole === 'admin') {
+        email = 'amit@ami-dar.co.il';
+      }
+
+      if (email) {
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (authData.user && !authError) {
+          await fetchUserData(authData.user.id);
+          return;
+        }
+      }
+
+      // Fallback: fetch a user from DB and set without auth
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('role', mockRole)
+        .limit(1)
+        .single();
+
+      if (data && !error) {
+        setUser(data);
+        setRole(data.role);
+      }
+    } catch (err) {
+      console.error('Error during mock login:', err);
+    }
   };
 
   return (
