@@ -5,7 +5,7 @@ import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
-import { QRCodeSVG } from 'react-qr-code';
+import { QRCode } from 'react-qr-code';
 
 // Mock data - will be replaced with real data from Supabase
 const mockStats = {
@@ -123,7 +123,7 @@ export function MessengerDashboard() {
               </Button>
             </div>
             <div className="bg-white p-3 sm:p-4 rounded-lg">
-              <QRCodeSVG value={landingPageUrl} size={120} className="sm:w-[150px] sm:h-[150px]" />
+              <QRCode value={landingPageUrl} size={120} className="sm:w-[150px] sm:h-[150px]" />
             </div>
           </div>
         </div>
