@@ -11,6 +11,8 @@ export function HebrewDateDisplay({ className = '', showIcon = true }: HebrewDat
   const [hebrewDate, setHebrewDate] = useState('');
   
   useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
     // Update date on mount
     setHebrewDate(formatHebrewDateFull());
     
@@ -22,14 +24,15 @@ export function HebrewDateDisplay({ className = '', showIcon = true }: HebrewDat
     const timeout = setTimeout(() => {
       setHebrewDate(formatHebrewDateFull());
       // Set up daily interval
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         setHebrewDate(formatHebrewDateFull());
       }, 24 * 60 * 60 * 1000);
-      
-      return () => clearInterval(interval);
     }, msUntilMidnight);
     
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
   }, []);
   
   return (
