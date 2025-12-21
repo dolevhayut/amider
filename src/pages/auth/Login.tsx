@@ -40,7 +40,9 @@ export function Login() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 flex items-center justify-center p-4 sm:p-6">
       <Card className="w-full max-w-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-indigo-600 mb-2">עמידר</h1>
+          <div className="flex justify-center mb-4">
+            <img src="/logo.png" alt="עמידר" className="h-16 sm:h-20 w-auto object-contain" />
+          </div>
           <p className="text-sm sm:text-base text-gray-600">מערכת ניהול תורמים ותפילות</p>
         </div>
         

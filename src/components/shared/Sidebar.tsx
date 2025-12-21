@@ -46,8 +46,8 @@ export function Sidebar({ navItems }: SidebarProps) {
       
       {/* Desktop Sidebar (Right side for RTL) */}
       <div className="hidden md:flex flex-col h-screen w-64 bg-white border-l border-gray-200 order-1">
-        <div className="flex items-center justify-center h-16 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-indigo-600">עמידר</h1>
+        <div className="flex items-center justify-center h-16 border-b border-gray-200 px-4">
+          <img src="/logo.png" alt="עמידר" className="h-12 w-auto object-contain" />
         </div>
         
         <nav className="flex-1 overflow-y-auto p-4 space-y-2">
