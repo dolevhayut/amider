@@ -1,4 +1,4 @@
-import { Database } from './database.types';
+import type { Database } from './database.types';
 
 // Helper types from Supabase
 export type User = Database['public']['Tables']['users']['Row'];

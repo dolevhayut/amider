@@ -559,3 +559,41 @@ export type Enums<
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      campaign_content_type: ["image", "video", "text"],
+      campaign_status: ["draft", "scheduled", "sent"],
+      campaign_target: ["all_messengers", "all_members", "specific"],
+      plan_type: ["18", "30"],
+      prayer_status: ["active", "completed", "archived"],
+      subscription_status: ["active", "cancelled", "pending", "failed"],
+      subscription_type: ["one_time", "monthly"],
+      transaction_status: ["pending", "completed", "failed", "refunded"],
+      transaction_type: [
+        "member_payment",
+        "messenger_commission",
+        "messenger_subscription",
+        "withdrawal",
+      ],
+      user_role: ["messenger", "member", "admin"],
+    },
+  },
+} as const
