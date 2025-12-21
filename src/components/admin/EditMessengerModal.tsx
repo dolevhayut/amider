@@ -34,7 +34,6 @@ export function EditMessengerModal({
     commission_rate_one_time: 16.67,
     commission_rate_monthly: 16.67,
     custom_goal_text: '',
-    symbol: '',
     bank_name: '',
     bank_branch: '',
     bank_account: '',
@@ -51,7 +50,6 @@ export function EditMessengerModal({
         commission_rate_one_time: messenger.commission_rate_one_time,
         commission_rate_monthly: messenger.commission_rate_monthly,
         custom_goal_text: messenger.custom_goal_text || '',
-        symbol: messenger.symbol || '',
       });
       setSlugAvailable(true);
       setShowSlugWarning(false);
@@ -253,15 +251,6 @@ export function EditMessengerModal({
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
-
-          <Input
-            label="סמל"
-            type="text"
-            value={formData.symbol}
-            onChange={(e) => handleChange('symbol', e.target.value)}
-            placeholder="🙏"
-            maxLength={5}
-          />
         </div>
 
         {/* Action Buttons */}

@@ -26,12 +26,10 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
     full_name: '',
     email: '',
     phone: '',
-    plan_type: '18',
     landing_page_slug: '',
     commission_rate_one_time: 16.67,
     commission_rate_monthly: 16.67,
     custom_goal_text: '',
-    symbol: '',
     bank_name: '',
     bank_branch: '',
     bank_account: '',
@@ -60,7 +58,7 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
       case 1:
         return !!(formData.full_name && formData.email && formData.phone);
       case 2:
-        return !!(formData.plan_type);
+        return true; // Commission rates have default values
       case 3:
         return !!(formData.landing_page_slug && slugAvailable);
       case 4:
@@ -94,12 +92,10 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
         full_name: '',
         email: '',
         phone: '',
-        plan_type: '18',
         landing_page_slug: '',
         commission_rate_one_time: 16.67,
         commission_rate_monthly: 16.67,
         custom_goal_text: '',
-        symbol: '',
         bank_name: '',
         bank_branch: '',
         bank_account: '',
@@ -130,10 +126,11 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
     >
       <div className="space-y-6">
         {/* Stepper */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center gap-2">
           {[1, 2, 3, 4].map((step) => (
-            <div key={step} className="flex items-center">
+            <>
               <div
+                key={step}
                 className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
                   step < currentStep
                     ? 'bg-green-500 border-green-500 text-white'
@@ -146,12 +143,12 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
               </div>
               {step < 4 && (
                 <div
-                  className={`h-0.5 w-12 sm:w-16 ${
+                  className={`h-0.5 w-12 sm:w-20 ${
                     step < currentStep ? 'bg-green-500' : 'bg-gray-300'
                   }`}
                 />
               )}
-            </div>
+            </>
           ))}
         </div>
 
@@ -159,7 +156,7 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
         <div className="text-center">
           <h3 className="text-lg font-semibold text-gray-900">
             {currentStep === 1 && 'פרטים אישיים'}
-            {currentStep === 2 && 'הגדרות תוכנית ועמלות'}
+            {currentStep === 2 && 'הגדרת עמלות'}
             {currentStep === 3 && 'מיתוג ודף נחיתה'}
             {currentStep === 4 && 'פרטי בנק (אופציונלי)'}
           </h3>
@@ -210,44 +207,12 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
             </>
           )}
 
-          {/* Step 2: Plan & Commission */}
+          {/* Step 2: Commission */}
           {currentStep === 2 && (
             <>
               <div className="flex items-center gap-2 text-indigo-600 mb-4">
                 <Settings className="h-5 w-5" />
-                <span className="text-sm font-medium">שלב 2: הגדרות תוכנית ועמלות</span>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  בחירת תוכנית *
-                </label>
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() => handleChange('plan_type', '18')}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.plan_type === '18'
-                        ? 'border-indigo-600 bg-indigo-50'
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    <div className="text-2xl font-bold text-gray-900">18</div>
-                    <div className="text-xs text-gray-600 mt-1">תוכנית חי</div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleChange('plan_type', '30')}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.plan_type === '30'
-                        ? 'border-indigo-600 bg-indigo-50'
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    <div className="text-2xl font-bold text-gray-900">30</div>
-                    <div className="text-xs text-gray-600 mt-1">תוכנית ל</div>
-                  </button>
-                </div>
+                <span className="text-sm font-medium">שלב 2: הגדרת עמלות</span>
               </div>
 
               <Input
@@ -317,15 +282,6 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
                   {formData.custom_goal_text?.length || 0}/200 תווים
                 </p>
               </div>
-
-              <Input
-                label="סמל"
-                type="text"
-                value={formData.symbol}
-                onChange={(e) => handleChange('symbol', e.target.value)}
-                placeholder="🙏 או טקסט קצר"
-                maxLength={5}
-              />
             </>
           )}
 

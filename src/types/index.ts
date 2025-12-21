@@ -116,12 +116,12 @@ export interface CreateMessengerData {
   full_name: string;
   email: string;
   phone: string;
-  plan_type: PlanType;
+  plan_type?: PlanType; // Will default to '18' in backend if not provided
   landing_page_slug: string;
   commission_rate_one_time: number;
   commission_rate_monthly: number;
   custom_goal_text?: string;
-  symbol?: string;
+  symbol?: string; // Will be uploaded to bucket in the future
   bank_name?: string;
   bank_branch?: string;
   bank_account?: string;

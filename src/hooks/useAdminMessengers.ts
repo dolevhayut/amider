@@ -203,12 +203,12 @@ export function useAdminMessengers() {
         .from('messengers')
         .insert({
           user_id: userId,
-          plan_type: data.plan_type,
+          plan_type: data.plan_type || '18', // Default to '18' if not provided
           landing_page_slug: data.landing_page_slug,
           commission_rate_one_time: data.commission_rate_one_time,
           commission_rate_monthly: data.commission_rate_monthly,
           custom_goal_text: data.custom_goal_text,
-          symbol: data.symbol,
+          symbol: data.symbol || null, // Will be uploaded to bucket in the future
           wallet_balance: 0,
           is_active: true,
         });
