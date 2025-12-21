@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Sidebar } from '../components/shared/Sidebar';
 import { useAuth } from '../contexts/AuthContext';
-import { UserRole } from '../types';
+import type { UserRole } from '../types';
 
 interface DashboardLayoutProps {
   children: ReactNode;

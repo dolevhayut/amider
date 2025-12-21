@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LucideIcon, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface NavItem {
