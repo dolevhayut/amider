@@ -7,7 +7,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Rubik', 'system-ui', 'sans-serif'],
+        sans: ['Google Sans', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      // Mobile-first breakpoints
+      screens: {
+        'xs': '475px',
+        // sm: '640px' (default)
+        // md: '768px' (default)
+        // lg: '1024px' (default)
+        // xl: '1280px' (default)
+        // 2xl: '1536px' (default)
       },
     },
   },

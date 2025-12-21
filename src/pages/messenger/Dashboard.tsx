@@ -47,14 +47,14 @@ export function MessengerDashboard() {
   };
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">לוח בקרה - שליח</h1>
-        <p className="mt-2 text-gray-600">סקירה כללית של הפעילות שלך</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">לוח בקרה - שליח</h1>
+        <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">סקירה כללית של הפעילות שלך</p>
       </div>
       
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats Grid - Mobile: 2 cols, Tablet: 2 cols, Desktop: 4 cols */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
           title="סה''כ מצטרפים"
           value={mockStats.totalMembers}
@@ -86,39 +86,44 @@ export function MessengerDashboard() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              הקישור האישי שלך
+              הקישור האישי שלך לדף WordPress
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={landingPageUrl}
                 readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50"
               />
-              <Button onClick={copyToClipboard}>
-                <Copy className="h-4 w-4" />
-                {copied ? 'הועתק!' : 'העתק'}
-              </Button>
-              <Button variant="secondary">
-                <Share2 className="h-4 w-4" />
-                שתף
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={copyToClipboard} className="flex-1 sm:flex-none" size="sm">
+                  <Copy className="h-4 w-4" />
+                  <span className="sm:inline">{copied ? 'הועתק!' : 'העתק'}</span>
+                </Button>
+                <Button variant="secondary" className="flex-1 sm:flex-none" size="sm">
+                  <Share2 className="h-4 w-4" />
+                  <span className="sm:inline">שתף</span>
+                </Button>
+              </div>
             </div>
+            <p className="text-xs text-gray-500 mt-2">
+              * הקישור מוביל לדף הנחיתה שלך באתר WordPress/Elementor
+            </p>
           </div>
           
-          <div className="flex items-center gap-6 p-6 bg-gray-50 rounded-lg">
-            <div>
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gray-50 rounded-lg">
+            <div className="flex-1 text-center sm:text-right">
               <h3 className="font-medium text-gray-900 mb-2">QR Code שלך</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                הדפס וצרף לעמדת תפילין
+              <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                הדפס וצרף לעמדת תפילין - מוביל לדף הנחיתה שלך
               </p>
-              <Button size="sm" variant="secondary">
+              <Button size="sm" variant="secondary" className="w-full sm:w-auto">
                 <QrCode className="h-4 w-4" />
                 הורד QR
               </Button>
             </div>
-            <div className="bg-white p-4 rounded-lg">
-              <QRCodeSVG value={landingPageUrl} size={150} />
+            <div className="bg-white p-3 sm:p-4 rounded-lg">
+              <QRCodeSVG value={landingPageUrl} size={120} className="sm:w-[150px] sm:h-[150px]" />
             </div>
           </div>
         </div>

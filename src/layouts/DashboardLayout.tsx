@@ -60,13 +60,14 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
   const navItems = navItemsByRole[requiredRole];
   
   return (
-    <div className="flex h-screen bg-gray-50" dir="rtl">
-      <Sidebar navItems={navItems} />
-      <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto px-6 py-8">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+      {/* Mobile: Sidebar at bottom, Desktop: Sidebar on right */}
+      <main className="flex-1 overflow-y-auto order-1 md:order-2">
+        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
           {children}
         </div>
       </main>
+      <Sidebar navItems={navItems} />
     </div>
   );
 }

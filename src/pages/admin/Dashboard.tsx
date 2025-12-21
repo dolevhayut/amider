@@ -62,14 +62,14 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'messengers' | 'members' | 'prayers'>('overview');
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">לוח בקרה - מנהל</h1>
-        <p className="mt-2 text-gray-600">ניהול כללי של המערכת</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">לוח בקרה - מנהל</h1>
+        <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">ניהול כללי של המערכת</p>
       </div>
       
-      {/* Main Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+      {/* Main Stats - Mobile: 2 cols, Tablet: 3 cols, Desktop: 6 cols */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
           title="שליחים"
           value={mockAdminStats.totalMessengers}

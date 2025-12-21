@@ -37,11 +37,11 @@ export function Login() {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 flex items-center justify-center p-4" dir="rtl">
-      <Card className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-indigo-600 mb-2">עמידר</h1>
-          <p className="text-gray-600">מערכת ניהול תורמים ותפילות</p>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 flex items-center justify-center p-4 sm:p-6">
+      <Card className="w-full max-w-md mx-auto">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-indigo-600 mb-2">עמידר</h1>
+          <p className="text-sm sm:text-base text-gray-600">מערכת ניהול תורמים ותפילות</p>
         </div>
         
         <form onSubmit={handleLogin} className="space-y-4">
@@ -74,29 +74,32 @@ export function Login() {
           </Button>
         </form>
         
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-sm text-gray-600 mb-3 text-center">התחברות מהירה לפיתוח:</p>
-          <div className="space-y-2">
+        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+          <p className="text-xs sm:text-sm text-gray-600 mb-3 text-center">התחברות מהירה לפיתוח:</p>
+          <div className="grid grid-cols-3 gap-2">
             <Button 
               variant="secondary" 
               onClick={() => handleMockLogin('messenger')}
-              className="w-full"
+              className="w-full text-xs sm:text-sm"
+              size="sm"
             >
-              כניסה כשליח
+              שליח
             </Button>
             <Button 
               variant="secondary" 
               onClick={() => handleMockLogin('member')}
-              className="w-full"
+              className="w-full text-xs sm:text-sm"
+              size="sm"
             >
-              כניסה כמצטרף
+              מצטרף
             </Button>
             <Button 
               variant="secondary" 
               onClick={() => handleMockLogin('admin')}
-              className="w-full"
+              className="w-full text-xs sm:text-sm"
+              size="sm"
             >
-              כניסה כמנהל
+              מנהל
             </Button>
           </div>
         </div>

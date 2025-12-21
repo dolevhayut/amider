@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { DashboardLayout } from './layouts/DashboardLayout';
-import { Home } from './pages/landing/Home';
 import { Login } from './pages/auth/Login';
 import { MessengerDashboard } from './pages/messenger/Dashboard';
 import { MemberDashboard } from './pages/member/Dashboard';
@@ -12,8 +11,8 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Home />} />
+          {/* Public routes - Entry point is login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           
           {/* Messenger routes */}
@@ -46,8 +45,8 @@ function App() {
             }
           />
           
-          {/* Catch all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Catch all - redirect to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

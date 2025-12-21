@@ -1,20 +1,41 @@
 @import "tailwindcss";
 
-/* Import Hebrew font */
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+/* Import Google Sans - Modern Hebrew font */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 * {
-  font-family: 'Rubik', system-ui, sans-serif;
+  font-family: 'Google Sans', system-ui, -apple-system, sans-serif;
 }
 
-/* RTL Support */
-[dir="rtl"] {
+/* Mobile-first approach - Default is mobile */
+body {
   direction: rtl;
+  text-align: right;
 }
 
 /* Ensure inputs and forms work well in RTL */
-[dir="rtl"] input,
-[dir="rtl"] textarea,
-[dir="rtl"] select {
+input,
+textarea,
+select {
   text-align: right;
+}
+
+/* Override for LTR content when needed */
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Mobile-optimized scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve touch targets for mobile */
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: rgba(79, 70, 229, 0.1);
 }

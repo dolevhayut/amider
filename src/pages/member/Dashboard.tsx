@@ -50,14 +50,14 @@ export function MemberDashboard() {
   };
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">לוח בקרה - מצטרף</h1>
-        <p className="mt-2 text-gray-600">ניהול המנוי והתפילות שלך</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">לוח בקרה - מצטרף</h1>
+        <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">ניהול המנוי והתפילות שלך</p>
       </div>
       
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Stats - Mobile: 1 col, Tablet+: 3 cols */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
           title="תפילות פעילות"
           value={mockMemberInfo.activePrayers}
