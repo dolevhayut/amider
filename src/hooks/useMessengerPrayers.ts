@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Database } from '../types/database.types';
-
-type PrayerRequest = Database['public']['Tables']['prayer_requests']['Row'];
 
 export interface PrayerData {
   id: string;
@@ -14,7 +11,7 @@ export interface PrayerData {
   memberName: string;
 }
 
-export function useMessengerPrayers(messengerId: string | undefined) {
+export function useMessengerPrayers(messengerId?: string) {
   const [prayers, setPrayers] = useState<PrayerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,10 +19,12 @@ export function useMessengerPrayers(messengerId: string | undefined) {
   useEffect(() => {
     if (!messengerId) {
       setLoading(false);
+      setPrayers([]);
       return;
     }
 
     async function fetchPrayers() {
+      if (!messengerId) return;
       try {
         setLoading(true);
         setError(null);

@@ -7,6 +7,7 @@ import { MessengerDonors } from './pages/messenger/Donors';
 import { MessengerPrayers } from './pages/messenger/Prayers';
 import { MessengerSettings } from './pages/messenger/Settings';
 import { AdminDashboard } from './pages/admin/Dashboard';
+import { Messengers } from './pages/admin/Messengers';
 
 // Placeholder component for routes not yet implemented
 function ComingSoon({ title }: { title: string }) {
@@ -80,7 +81,7 @@ function App() {
             path="/admin/messengers"
             element={
               <DashboardLayout requiredRole="admin">
-                <ComingSoon title="ניהול שליחים" />
+                <Messengers />
               </DashboardLayout>
             }
           />

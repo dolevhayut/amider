@@ -1,4 +1,4 @@
-import { Heart, CheckCircle, Archive, Filter } from 'lucide-react';
+import { Heart, CheckCircle, Filter } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { Badge } from '../../components/shared/Badge';
@@ -124,7 +124,7 @@ export function MessengerPrayers() {
                         <Badge variant="info">הושלם</Badge>
                       )}
                       {prayer.status === 'archived' && (
-                        <Badge variant="secondary">בארכיון</Badge>
+                        <Badge variant="default">בארכיון</Badge>
                       )}
                     </div>
                   </div>

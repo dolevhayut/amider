@@ -1,4 +1,4 @@
-import { Users, Search, Filter, Download } from 'lucide-react';
+import { Users, Search, Download } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { DataTable } from '../../components/shared/DataTable';

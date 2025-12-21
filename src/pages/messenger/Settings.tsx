@@ -1,4 +1,4 @@
-import { Settings as SettingsIcon, User, Link, Image, Save } from 'lucide-react';
+import { Settings as SettingsIcon, User, Link, Save } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { Input } from '../../components/shared/Input';

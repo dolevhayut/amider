@@ -21,6 +21,7 @@ export interface MessengerProfile {
   goal_id: string | null;
   custom_goal_text: string | null;
   tzadik_image_url: string | null;
+  symbol: string | null;
 }
 
 export function useMessengerData() {
@@ -55,6 +56,7 @@ export function useMessengerData() {
             goal_id,
             custom_goal_text,
             tzadik_image_url,
+            symbol,
             user:users!messengers_user_id_fkey (
               full_name,
               email
@@ -79,6 +81,7 @@ export function useMessengerData() {
             goal_id: messengerData.goal_id,
             custom_goal_text: messengerData.custom_goal_text,
             tzadik_image_url: messengerData.tzadik_image_url,
+            symbol: messengerData.symbol,
           });
 
           // Get stats

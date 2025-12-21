@@ -10,7 +10,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, mockLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   
   const handleLogin = async (e: React.FormEvent) => {
@@ -26,14 +26,6 @@ export function Login() {
     } finally {
       setLoading(false);
     }
-  };
-  
-  const handleMockLogin = async (role: 'messenger' | 'member' | 'admin') => {
-    await mockLogin(role);
-    const redirectPath = role === 'admin' ? '/admin/dashboard' : 
-                        role === 'messenger' ? '/messenger/dashboard' : 
-                        '/member/dashboard';
-    navigate(redirectPath);
   };
 
   const handleQuickLogin = async (userEmail: string, userPassword: string, redirectPath: string) => {

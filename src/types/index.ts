@@ -89,3 +89,66 @@ export interface PrayerRequestForm {
   prayerIntention: string;
 }
 
+// Admin - Messenger Management Types
+export interface MessengerWithStats {
+  id: string;
+  user_id: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  landing_page_slug: string;
+  plan_type: PlanType;
+  wallet_balance: number;
+  commission_rate_one_time: number;
+  commission_rate_monthly: number;
+  is_active: boolean;
+  created_at: string;
+  custom_goal_text: string | null;
+  symbol: string | null;
+  // Stats
+  total_donors: number;
+  active_subscriptions: number;
+  total_revenue: number;
+  this_month_revenue: number;
+}
+
+export interface CreateMessengerData {
+  full_name: string;
+  email: string;
+  phone: string;
+  plan_type: PlanType;
+  landing_page_slug: string;
+  commission_rate_one_time: number;
+  commission_rate_monthly: number;
+  custom_goal_text?: string;
+  symbol?: string;
+  bank_name?: string;
+  bank_branch?: string;
+  bank_account?: string;
+  bank_account_holder?: string;
+}
+
+export interface UpdateMessengerData {
+  full_name?: string;
+  phone?: string;
+  plan_type?: PlanType;
+  landing_page_slug?: string;
+  commission_rate_one_time?: number;
+  commission_rate_monthly?: number;
+  custom_goal_text?: string;
+  symbol?: string;
+  bank_name?: string;
+  bank_branch?: string;
+  bank_account?: string;
+  bank_account_holder?: string;
+  is_active?: boolean;
+}
+
+export interface AdminMessengersStats {
+  total_messengers: number;
+  active_messengers: number;
+  total_donors: number;
+  this_month_revenue: number;
+  total_commissions_paid: number;
+}
+
