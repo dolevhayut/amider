@@ -22,7 +22,7 @@ export function Sidebar({ navItems }: SidebarProps) {
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 right-0 left-0 bg-white border-t border-gray-200 z-50 order-2">
         <div className="flex justify-around items-center h-16 px-2">
-          {navItems.slice(0, 4).map((item) => {
+          {navItems.slice(0, 3).map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.to;
             
@@ -41,6 +41,14 @@ export function Sidebar({ navItems }: SidebarProps) {
               </Link>
             );
           })}
+          {/* Logout button for mobile */}
+          <button
+            onClick={logout}
+            className="flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors min-w-0 flex-1 text-red-600 hover:bg-red-50"
+          >
+            <LogOut className="h-5 w-5 flex-shrink-0" />
+            <span className="text-xs font-medium truncate max-w-full">התנתק</span>
+          </button>
         </div>
       </nav>
       

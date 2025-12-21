@@ -3,6 +3,9 @@ import { AuthProvider } from './contexts/AuthContext';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { Login } from './pages/auth/Login';
 import { MessengerDashboard } from './pages/messenger/Dashboard';
+import { MessengerDonors } from './pages/messenger/Donors';
+import { MessengerPrayers } from './pages/messenger/Prayers';
+import { MessengerSettings } from './pages/messenger/Settings';
 import { AdminDashboard } from './pages/admin/Dashboard';
 
 // Placeholder component for routes not yet implemented
@@ -39,7 +42,7 @@ function App() {
             path="/messenger/donors"
             element={
               <DashboardLayout requiredRole="messenger">
-                <ComingSoon title="תורמים תחתיי" />
+                <MessengerDonors />
               </DashboardLayout>
             }
           />
@@ -47,7 +50,7 @@ function App() {
             path="/messenger/prayers"
             element={
               <DashboardLayout requiredRole="messenger">
-                <ComingSoon title="רשימת תפילות" />
+                <MessengerPrayers />
               </DashboardLayout>
             }
           />
@@ -55,7 +58,7 @@ function App() {
             path="/messenger/settings"
             element={
               <DashboardLayout requiredRole="messenger">
-                <ComingSoon title="הגדרות שליח" />
+                <MessengerSettings />
               </DashboardLayout>
             }
           />

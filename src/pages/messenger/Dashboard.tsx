@@ -7,45 +7,55 @@ import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
 import QRCode from 'react-qr-code';
 import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
-
-// Mock data - will be replaced with real data from Supabase
-const mockStats = {
-  totalDonors: 45,
-  activeSubscriptions: 38,
-  totalEarned: 3240,
-  walletBalance: 1580,
-  activePrayers: 127,
-};
-
-const mockDonors = [
-  {
-    id: '1',
-    name: 'יוסף כהן',
-    email: 'yosef@example.com',
-    subscriptionType: 'monthly',
-    status: 'active',
-    joinDate: '2024-01-15',
-  },
-  {
-    id: '2',
-    name: 'שרה לוי',
-    email: 'sarah@example.com',
-    subscriptionType: 'one_time',
-    status: 'active',
-    joinDate: '2024-02-20',
-  },
-];
+import { useMessengerData } from '../../hooks/useMessengerData';
+import { useMessengerDonors } from '../../hooks/useMessengerDonors';
 
 export function MessengerDashboard() {
   const [copied, setCopied] = useState(false);
-  const messengerSlug = 'test-messenger'; // Will come from actual user data
-  const landingPageUrl = `${window.location.origin}/m/${messengerSlug}`;
+  const { stats, profile, loading, error } = useMessengerData();
+  const { donors } = useMessengerDonors(profile?.id);
+  
+  const landingPageUrl = profile 
+    ? `${window.location.origin}/m/${profile.landing_page_slug}`
+    : '';
   
   const copyToClipboard = () => {
     navigator.clipboard.writeText(landingPageUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">טוען נתונים...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">שגיאה בטעינת הנתונים</p>
+          <p className="text-gray-600 text-sm">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!stats || !profile) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <p className="text-gray-600">לא נמצאו נתוני שליח</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
@@ -61,22 +71,22 @@ export function MessengerDashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
           title="סה''כ תורמים"
-          value={mockStats.totalDonors}
+          value={stats.totalDonors}
           icon={Users}
         />
         <StatsCard
           title="מנויים פעילים"
-          value={mockStats.activeSubscriptions}
+          value={stats.activeSubscriptions}
           icon={Heart}
         />
         <StatsCard
           title="סה''כ הרוחתי"
-          value={`₪${mockStats.totalEarned}`}
+          value={`₪${stats.totalEarned.toLocaleString()}`}
           icon={DollarSign}
         />
         <StatsCard
           title="יתרת ארנק"
-          value={`₪${mockStats.walletBalance}`}
+          value={`₪${stats.walletBalance.toLocaleString()}`}
           icon={Wallet}
         />
       </div>
@@ -138,36 +148,42 @@ export function MessengerDashboard() {
         header={
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900">תורמים תחתיי</h2>
-            <Badge variant="info">{mockDonors.length} תורמים</Badge>
+            <Badge variant="info">{donors.length} תורמים</Badge>
           </div>
         }
       >
-        <DataTable
-          data={mockDonors}
-          columns={[
-            { key: 'name', header: 'שם' },
-            { key: 'email', header: 'אימייל' },
-            {
-              key: 'subscriptionType',
-              header: 'סוג מנוי',
-              render: (item) => (
-                <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
-                  {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
-                </Badge>
-              ),
-            },
-            {
-              key: 'status',
-              header: 'סטטוס',
-              render: (item) => (
-                <Badge variant={item.status === 'active' ? 'success' : 'danger'}>
-                  {item.status === 'active' ? 'פעיל' : 'לא פעיל'}
-                </Badge>
-              ),
-            },
-            { key: 'joinDate', header: 'תאריך הצטרפות' },
-          ]}
-        />
+        {donors.length > 0 ? (
+          <DataTable
+            data={donors}
+            columns={[
+              { key: 'name', header: 'שם' },
+              { key: 'email', header: 'אימייל' },
+              {
+                key: 'subscriptionType',
+                header: 'סוג מנוי',
+                render: (item) => (
+                  <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
+                    {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
+                  </Badge>
+                ),
+              },
+              {
+                key: 'subscriptionStatus',
+                header: 'סטטוס',
+                render: (item) => (
+                  <Badge variant={item.subscriptionStatus === 'active' ? 'success' : 'danger'}>
+                    {item.subscriptionStatus === 'active' ? 'פעיל' : 
+                     item.subscriptionStatus === 'cancelled' ? 'בוטל' :
+                     item.subscriptionStatus === 'pending' ? 'ממתין' : 'נכשל'}
+                  </Badge>
+                ),
+              },
+              { key: 'joinDate', header: 'תאריך הצטרפות' },
+            ]}
+          />
+        ) : (
+          <p className="text-center text-gray-500 py-8">אין תורמים עדיין</p>
+        )}
       </Card>
       
       {/* Wallet Actions */}
@@ -180,9 +196,9 @@ export function MessengerDashboard() {
           <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg">
             <div>
               <p className="text-sm text-gray-600">יתרה זמינה למשיכה</p>
-              <p className="text-2xl font-bold text-green-600">₪{mockStats.walletBalance}</p>
+              <p className="text-2xl font-bold text-green-600">₪{stats.walletBalance.toLocaleString()}</p>
             </div>
-            <Button>
+            <Button disabled={stats.walletBalance === 0}>
               משוך כספים
             </Button>
           </div>
