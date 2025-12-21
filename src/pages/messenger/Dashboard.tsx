@@ -6,6 +6,7 @@ import { Button } from '../../components/shared/Button';
 import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
 import { QRCode } from 'react-qr-code';
+import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
 
 // Mock data - will be replaced with real data from Supabase
 const mockStats = {
@@ -49,8 +50,11 @@ export function MessengerDashboard() {
   return (
     <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">לוח בקרה - שליח</h1>
-        <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">סקירה כללית של הפעילות שלך</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">לוח בקרה - שליח</h1>
+          <HebrewDateDisplay />
+        </div>
+        <p className="text-sm sm:text-base text-gray-600">סקירה כללית של הפעילות שלך</p>
       </div>
       
       {/* Stats Grid - Mobile: 2 cols, Tablet: 2 cols, Desktop: 4 cols */}

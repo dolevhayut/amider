@@ -5,6 +5,7 @@ import { Card } from '../../components/shared/Card';
 import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
 import { Button } from '../../components/shared/Button';
+import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
 
 // Mock data
 const mockAdminStats = {
@@ -106,12 +107,15 @@ export function AdminDashboard() {
   
   return (
     <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
-      <div className="flex items-center gap-3">
-        <UserCircle className="h-8 w-8 sm:h-10 sm:w-10 text-indigo-600" />
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">שלום עמית!</h1>
-          <p className="mt-1 text-sm sm:text-base text-gray-600">סקירה כללית של מיזם עמי-דר</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <UserCircle className="h-8 w-8 sm:h-10 sm:w-10 text-indigo-600" />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">שלום עמית!</h1>
+            <p className="mt-1 text-sm sm:text-base text-gray-600">סקירה כללית של מיזם עמי-דר</p>
+          </div>
         </div>
+        <HebrewDateDisplay className="sm:mt-2" />
       </div>
       
       {/* Main Stats - Mobile: 2 cols, Tablet: 3 cols, Desktop: 6 cols */}
@@ -265,6 +269,13 @@ export function AdminDashboard() {
                         <div className="flex justify-between">
                           <span className="text-gray-600">מנויים פעילים:</span>
                           <span className="font-semibold">{messenger.activeSubscriptions}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">אחוז עמלה:</span>
+                          <span className="font-semibold text-purple-600 flex items-center gap-1">
+                            <Percent className="h-3 w-3" />
+                            {messenger.commissionRateOneTime}%
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-600">הרוויח החודש:</span>
