@@ -5,7 +5,7 @@ import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
-import { QRCode } from 'react-qr-code';
+import QRCode from 'react-qr-code';
 import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
 
 // Mock data - will be replaced with real data from Supabase

@@ -11,7 +11,7 @@ export function HebrewDateDisplay({ className = '', showIcon = true }: HebrewDat
   const [hebrewDate, setHebrewDate] = useState('');
   
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     
     // Update date on mount
     setHebrewDate(formatHebrewDateFull());

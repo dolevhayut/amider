@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -10,11 +10,10 @@ import {
 } from 'lucide-react';
 import { Sidebar } from '../components/shared/Sidebar';
 import { useAuth } from '../contexts/AuthContext';
-import type { UserRole } from '../types';
 
 interface DashboardLayoutProps {
   children: ReactNode;
-  requiredRole: UserRole;
+  requiredRole: 'messenger' | 'admin';
 }
 
 const navItemsByRole = {
