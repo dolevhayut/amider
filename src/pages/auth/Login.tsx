@@ -87,7 +87,7 @@ export function Login() {
             </Button>
             <Button 
               variant="secondary" 
-              onClick={() => handleMockLogin('member')}
+              onClick={() => navigate('/member/dashboard')}
               className="w-full text-xs sm:text-sm"
               size="sm"
             >
@@ -102,6 +102,7 @@ export function Login() {
               מנהל
             </Button>
           </div>
+          <p className="text-xs text-gray-500 mt-2 text-center">* מצטרף - ללא צורך בהתחברות (דמו)</p>
         </div>
       </Card>
     </div>

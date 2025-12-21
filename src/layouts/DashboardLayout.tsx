@@ -53,7 +53,9 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
     );
   }
   
-  if (!user || role !== requiredRole) {
+  // DEMO MODE: For members, allow access without login
+  // For messengers and admins, require login
+  if (requiredRole !== 'member' && (!user || role !== requiredRole)) {
     return <Navigate to="/login" replace />;
   }
   
