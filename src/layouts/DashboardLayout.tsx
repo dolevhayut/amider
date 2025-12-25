@@ -6,7 +6,10 @@ import {
   Heart, 
   Settings,
   UserCheck,
-  TrendingUp
+  TrendingUp,
+  Briefcase,
+  Wallet,
+  Trophy
 } from 'lucide-react';
 import { Sidebar } from '../components/shared/Sidebar';
 import { useAuth } from '../contexts/AuthContext';
@@ -21,6 +24,7 @@ const navItemsByRole = {
     { to: '/messenger/dashboard', icon: LayoutDashboard, label: 'לוח בקרה' },
     { to: '/messenger/donors', icon: Users, label: 'לקוחות תחתיי' },
     { to: '/messenger/prayers', icon: Heart, label: 'רשימת תפילות' },
+    { to: '/messenger/assets', icon: Briefcase, label: 'הנכסים שלי' },
     { to: '/messenger/settings', icon: Settings, label: 'הגדרות' },
   ],
   admin: [
@@ -28,6 +32,8 @@ const navItemsByRole = {
     { to: '/admin/messengers', icon: UserCheck, label: 'ניהול שליחים' },
     { to: '/admin/donors', icon: Users, label: 'ניהול לקוחות' },
     { to: '/admin/prayers', icon: Heart, label: 'תפילות' },
+    { to: '/admin/leaderboard', icon: Trophy, label: 'טבלת מובילים' },
+    { to: '/admin/withdrawals', icon: Wallet, label: 'משיכות' },
     { to: '/admin/campaigns', icon: TrendingUp, label: 'קמפיינים' },
     { to: '/admin/settings', icon: Settings, label: 'הגדרות' },
   ],

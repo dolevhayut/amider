@@ -425,41 +425,72 @@ export type Database = {
       transactions: {
         Row: {
           amount: number
+          approved_at: string | null
+          approved_by_admin_id: string | null
+          bank_account: string | null
+          bank_account_holder: string | null
+          bank_branch: string | null
+          bank_name: string | null
           created_at: string | null
           currency: string | null
           description: string | null
           id: string
+          rejection_reason: string | null
           related_member_id: string | null
           related_messenger_id: string | null
+          requested_at: string | null
           status: Database["public"]["Enums"]["transaction_status"] | null
           type: Database["public"]["Enums"]["transaction_type"]
           user_id: string | null
         }
         Insert: {
           amount: number
+          approved_at?: string | null
+          approved_by_admin_id?: string | null
+          bank_account?: string | null
+          bank_account_holder?: string | null
+          bank_branch?: string | null
+          bank_name?: string | null
           created_at?: string | null
           currency?: string | null
           description?: string | null
           id?: string
+          rejection_reason?: string | null
           related_member_id?: string | null
           related_messenger_id?: string | null
+          requested_at?: string | null
           status?: Database["public"]["Enums"]["transaction_status"] | null
           type: Database["public"]["Enums"]["transaction_type"]
           user_id?: string | null
         }
         Update: {
           amount?: number
+          approved_at?: string | null
+          approved_by_admin_id?: string | null
+          bank_account?: string | null
+          bank_account_holder?: string | null
+          bank_branch?: string | null
+          bank_name?: string | null
           created_at?: string | null
           currency?: string | null
           description?: string | null
           id?: string
+          rejection_reason?: string | null
           related_member_id?: string | null
           related_messenger_id?: string | null
+          requested_at?: string | null
           status?: Database["public"]["Enums"]["transaction_status"] | null
           type?: Database["public"]["Enums"]["transaction_type"]
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "transactions_approved_by_admin_id_fkey"
+            columns: ["approved_by_admin_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "transactions_related_member_id_fkey"
             columns: ["related_member_id"]

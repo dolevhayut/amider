@@ -7,13 +7,19 @@ import { DataTable } from '../../components/shared/DataTable';
 import { Badge } from '../../components/shared/Badge';
 import QRCode from 'react-qr-code';
 import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
+import { WithdrawalModal } from '../../components/messenger/WithdrawalModal';
 import { useMessengerData } from '../../hooks/useMessengerData';
 import { useMessengerDonors } from '../../hooks/useMessengerDonors';
+import { useWithdrawals } from '../../hooks/useWithdrawals';
+import { useLeaderboard } from '../../hooks/useLeaderboard';
 
 export function MessengerDashboard() {
   const [copied, setCopied] = useState(false);
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
   const { stats, profile, loading, error } = useMessengerData();
   const { donors } = useMessengerDonors(profile?.id);
+  const { withdrawals, requestWithdrawal } = useWithdrawals(profile?.id);
+  const { myRankInfo, loading: rankLoading } = useLeaderboard(profile?.id);
   
   const landingPageUrl = profile 
     ? `${window.location.origin}/m/${profile.landing_page_slug}`
@@ -90,6 +96,81 @@ export function MessengerDashboard() {
           icon={Wallet}
         />
       </div>
+
+      {/* My Rank Widget */}
+      {!rankLoading && myRankInfo && (
+        <Card>
+          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 sm:p-6 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">🏆 המקום שלי בדירוג</h3>
+            
+            {myRankInfo.myRank ? (
+              <div className="space-y-4">
+                {/* My Position */}
+                <div className="text-center py-4 bg-white rounded-lg">
+                  <p className="text-sm text-gray-600 mb-2">אתה במקום</p>
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-5xl font-bold text-indigo-600">#{myRankInfo.myRank}</span>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-600">מתוך</p>
+                      <p className="text-2xl font-bold text-gray-900">{myRankInfo.totalMessengers}</p>
+                      <p className="text-xs text-gray-500">שליחים</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-3">
+                    יש לך <span className="font-bold text-indigo-600">{myRankInfo.myDonors}</span> לקוחות
+                  </p>
+                </div>
+
+                {/* Next Goal */}
+                {myRankInfo.nextRankDonors && myRankInfo.nextRankDonors > 0 && (
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <p className="text-sm text-gray-900">
+                      💡 <strong>עוד {myRankInfo.nextRankDonors} לקוחות</strong> ותעלה למקום #{myRankInfo.myRank - 1}!
+                    </p>
+                  </div>
+                )}
+
+                {/* Top 3 */}
+                {myRankInfo.topThree.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-sm font-semibold text-gray-700">3 המובילים:</p>
+                    {myRankInfo.topThree.map((entry, index) => {
+                      const medals = ['🥇', '🥈', '🥉'];
+                      const isMe = entry.messengerId === profile?.id;
+                      return (
+                        <div
+                          key={entry.messengerId}
+                          className={`flex items-center justify-between p-3 rounded-lg ${
+                            isMe ? 'bg-indigo-100 border-2 border-indigo-300' : 'bg-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{medals[index]}</span>
+                            <div>
+                              <p className={`font-medium ${                              isMe ? 'text-indigo-900' : 'text-gray-900'}`}>
+                                {entry.messengerName} {isMe && '(אני!)'}
+                              </p>
+                              <p className="text-xs text-gray-500">/{entry.slug}</p>
+                            </div>
+                          </div>
+                          <div className="text-left">
+                            <p className="text-lg font-bold text-indigo-600">{entry.totalDonors}</p>
+                            <p className="text-xs text-gray-500">לקוחות</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-600">טוען דירוג...</p>
+              </div>
+            )}
+          </div>
+        </Card>
+      )}
       
       {/* Marketing Tools */}
       <Card
@@ -198,15 +279,59 @@ export function MessengerDashboard() {
               <p className="text-sm text-gray-600">יתרה זמינה למשיכה</p>
               <p className="text-2xl font-bold text-green-600">₪{stats.walletBalance.toLocaleString()}</p>
             </div>
-            <Button disabled={stats.walletBalance === 0}>
+            <Button 
+              disabled={stats.walletBalance < 50}
+              onClick={() => setShowWithdrawalModal(true)}
+            >
+              <DollarSign className="h-4 w-4" />
               משוך כספים
             </Button>
           </div>
-          <p className="text-sm text-gray-600">
-            * משיכות מועברות לחשבון הבנק שהוגדר בין התאריכים 1-10 בכל חודש
+          
+          {/* Withdrawal History */}
+          {withdrawals.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold text-gray-900">היסטוריית משיכות</h3>
+              {withdrawals.slice(0, 3).map((withdrawal) => (
+                <div key={withdrawal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg text-sm">
+                  <div>
+                    <p className="font-medium text-gray-900">₪{withdrawal.amount.toFixed(2)}</p>
+                    <p className="text-xs text-gray-500">{withdrawal.requestedAt}</p>
+                  </div>
+                  <Badge 
+                    variant={
+                      withdrawal.status === 'completed' ? 'success' :
+                      withdrawal.status === 'pending' ? 'warning' :
+                      'danger'
+                    }
+                  >
+                    {withdrawal.status === 'completed' ? 'אושר' :
+                     withdrawal.status === 'pending' ? 'ממתין לאישור' :
+                     withdrawal.status === 'failed' ? 'נדחה' : 'בתהליך'}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <p className="text-xs text-gray-500">
+            💡 סכום מינימלי למשיכה: ₪50 | משיכות מאושרות תוך 3-5 ימי עסקים
           </p>
         </div>
       </Card>
+
+      {/* Withdrawal Modal */}
+      <WithdrawalModal
+        isOpen={showWithdrawalModal}
+        onClose={() => setShowWithdrawalModal(false)}
+        currentBalance={stats.walletBalance}
+        onSubmit={async (amount, bankDetails) => {
+          if (!profile?.id) {
+            return { success: false, error: 'לא נמצא פרופיל שליח' };
+          }
+          return await requestWithdrawal(profile.id, amount, bankDetails);
+        }}
+      />
     </div>
   );
 }

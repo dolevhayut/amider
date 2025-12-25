@@ -5,11 +5,14 @@ import { Login } from './pages/auth/Login';
 import { MessengerDashboard } from './pages/messenger/Dashboard';
 import { MessengerDonors } from './pages/messenger/Donors';
 import { MessengerPrayers } from './pages/messenger/Prayers';
+import { MyAssets } from './pages/messenger/MyAssets';
 import { MessengerSettings } from './pages/messenger/Settings';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { Messengers } from './pages/admin/Messengers';
 import { AdminDonors } from './pages/admin/Donors';
 import { AdminPrayers } from './pages/admin/Prayers';
+import { AdminWithdrawals } from './pages/admin/Withdrawals';
+import { AdminLeaderboard } from './pages/admin/Leaderboard';
 import { LandingPage } from './pages/public/LandingPage';
 import { DonatePage } from './pages/public/DonatePage';
 
@@ -64,6 +67,14 @@ function App() {
             }
           />
           <Route
+            path="/messenger/assets"
+            element={
+              <DashboardLayout requiredRole="messenger">
+                <MyAssets />
+              </DashboardLayout>
+            }
+          />
+          <Route
             path="/messenger/settings"
             element={
               <DashboardLayout requiredRole="messenger">
@@ -106,6 +117,22 @@ function App() {
             element={
               <DashboardLayout requiredRole="admin">
                 <AdminPrayers />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/admin/leaderboard"
+            element={
+              <DashboardLayout requiredRole="admin">
+                <AdminLeaderboard />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/admin/withdrawals"
+            element={
+              <DashboardLayout requiredRole="admin">
+                <AdminWithdrawals />
               </DashboardLayout>
             }
           />
