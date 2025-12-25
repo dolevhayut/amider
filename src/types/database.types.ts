@@ -7,6 +7,8 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
@@ -14,7 +16,9 @@ export type Database = {
     Tables: {
       campaigns: {
         Row: {
-          content_type: Database["public"]["Enums"]["campaign_content_type"] | null
+          content_type:
+            | Database["public"]["Enums"]["campaign_content_type"]
+            | null
           content_url: string | null
           created_at: string | null
           created_by_admin_id: string | null
@@ -27,7 +31,9 @@ export type Database = {
           target_audience: Database["public"]["Enums"]["campaign_target"] | null
         }
         Insert: {
-          content_type?: Database["public"]["Enums"]["campaign_content_type"] | null
+          content_type?:
+            | Database["public"]["Enums"]["campaign_content_type"]
+            | null
           content_url?: string | null
           created_at?: string | null
           created_by_admin_id?: string | null
@@ -37,10 +43,14 @@ export type Database = {
           scheduled_date?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["campaign_status"] | null
-          target_audience?: Database["public"]["Enums"]["campaign_target"] | null
+          target_audience?:
+            | Database["public"]["Enums"]["campaign_target"]
+            | null
         }
         Update: {
-          content_type?: Database["public"]["Enums"]["campaign_content_type"] | null
+          content_type?:
+            | Database["public"]["Enums"]["campaign_content_type"]
+            | null
           content_url?: string | null
           created_at?: string | null
           created_by_admin_id?: string | null
@@ -50,7 +60,9 @@ export type Database = {
           scheduled_date?: string | null
           sent_at?: string | null
           status?: Database["public"]["Enums"]["campaign_status"] | null
-          target_audience?: Database["public"]["Enums"]["campaign_target"] | null
+          target_audience?:
+            | Database["public"]["Enums"]["campaign_target"]
+            | null
         }
         Relationships: [
           {
@@ -92,6 +104,83 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_page_content: {
+        Row: {
+          about_content: string | null
+          about_title: string | null
+          background_style: string | null
+          created_at: string | null
+          cta_primary_text: string | null
+          cta_secondary_text: string | null
+          custom_sections: Json | null
+          hero_description: string | null
+          hero_image_url: string | null
+          hero_subtitle: string | null
+          hero_title: string
+          id: string
+          impact_items: Json | null
+          impact_title: string | null
+          messenger_id: string
+          meta_description: string | null
+          meta_title: string | null
+          testimonials: Json | null
+          theme_color: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          about_content?: string | null
+          about_title?: string | null
+          background_style?: string | null
+          created_at?: string | null
+          cta_primary_text?: string | null
+          cta_secondary_text?: string | null
+          custom_sections?: Json | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string
+          id?: string
+          impact_items?: Json | null
+          impact_title?: string | null
+          messenger_id: string
+          meta_description?: string | null
+          meta_title?: string | null
+          testimonials?: Json | null
+          theme_color?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          about_content?: string | null
+          about_title?: string | null
+          background_style?: string | null
+          created_at?: string | null
+          cta_primary_text?: string | null
+          cta_secondary_text?: string | null
+          custom_sections?: Json | null
+          hero_description?: string | null
+          hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string
+          id?: string
+          impact_items?: Json | null
+          impact_title?: string | null
+          messenger_id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          testimonials?: Json | null
+          theme_color?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "landing_page_content_messenger_id_fkey"
+            columns: ["messenger_id"]
+            isOneToOne: true
+            referencedRelation: "messengers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       members: {
         Row: {
           cancelled_at: string | null
@@ -101,7 +190,9 @@ export type Database = {
           messenger_id: string
           next_payment_date: string | null
           payment_token: string | null
-          subscription_status: Database["public"]["Enums"]["subscription_status"] | null
+          subscription_status:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
           subscription_type: Database["public"]["Enums"]["subscription_type"]
           updated_at: string | null
           user_id: string
@@ -115,7 +206,9 @@ export type Database = {
           messenger_id: string
           next_payment_date?: string | null
           payment_token?: string | null
-          subscription_status?: Database["public"]["Enums"]["subscription_status"] | null
+          subscription_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
           subscription_type: Database["public"]["Enums"]["subscription_type"]
           updated_at?: string | null
           user_id: string
@@ -129,7 +222,9 @@ export type Database = {
           messenger_id?: string
           next_payment_date?: string | null
           payment_token?: string | null
-          subscription_status?: Database["public"]["Enums"]["subscription_status"] | null
+          subscription_status?:
+            | Database["public"]["Enums"]["subscription_status"]
+            | null
           subscription_type?: Database["public"]["Enums"]["subscription_type"]
           updated_at?: string | null
           user_id?: string
@@ -448,6 +543,7 @@ export type Database = {
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
@@ -562,3 +658,25 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      campaign_content_type: ["image", "video", "text"],
+      campaign_status: ["draft", "scheduled", "sent"],
+      campaign_target: ["all_messengers", "all_members", "specific"],
+      plan_type: ["18", "30"],
+      prayer_status: ["active", "completed", "archived"],
+      subscription_status: ["active", "cancelled", "pending", "failed"],
+      subscription_type: ["one_time", "monthly"],
+      transaction_status: ["pending", "completed", "failed", "refunded"],
+      transaction_type: [
+        "member_payment",
+        "messenger_commission",
+        "messenger_subscription",
+        "withdrawal",
+      ],
+      user_role: ["messenger", "member", "admin"],
+    },
+  },
+} as const
