@@ -8,6 +8,8 @@ import { MessengerPrayers } from './pages/messenger/Prayers';
 import { MessengerSettings } from './pages/messenger/Settings';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { Messengers } from './pages/admin/Messengers';
+import { LandingPage } from './pages/public/LandingPage';
+import { DonatePage } from './pages/public/DonatePage';
 
 // Placeholder component for routes not yet implemented
 function ComingSoon({ title }: { title: string }) {
@@ -29,6 +31,10 @@ function App() {
           {/* Public routes - Entry point is login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
+          
+          {/* Messenger Landing Pages - Public */}
+          <Route path="/m/:slug" element={<LandingPage />} />
+          <Route path="/m/:slug/donate" element={<DonatePage />} />
           
           {/* Messenger routes */}
           <Route

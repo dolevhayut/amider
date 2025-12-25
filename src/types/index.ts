@@ -152,3 +152,96 @@ export interface AdminMessengersStats {
   total_commissions_paid: number;
 }
 
+// Landing Page Types
+export interface ImpactItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface Testimonial {
+  name: string;
+  content: string;
+  avatar?: string;
+  role?: string;
+}
+
+export interface CustomSection {
+  id: string;
+  type: 'text' | 'image' | 'video' | 'gallery';
+  title?: string;
+  content: string;
+  order: number;
+}
+
+export interface LandingPageContent {
+  id: string;
+  messenger_id: string;
+  
+  // Hero Section
+  hero_title: string;
+  hero_subtitle?: string;
+  hero_description: string;
+  hero_image_url?: string;
+  
+  // Call to Action
+  cta_primary_text: string;
+  cta_secondary_text?: string;
+  
+  // About Section
+  about_title: string;
+  about_content?: string;
+  
+  // Impact Section
+  impact_title: string;
+  impact_items: ImpactItem[];
+  
+  // Testimonials
+  testimonials: Testimonial[];
+  
+  // Custom Sections
+  custom_sections: CustomSection[];
+  
+  // Design Settings
+  theme_color: string;
+  background_style: 'light' | 'dark' | 'gradient';
+  
+  // SEO
+  meta_title?: string;
+  meta_description?: string;
+  
+  // Timestamps
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UpdateLandingPageContent {
+  hero_title?: string;
+  hero_subtitle?: string;
+  hero_description?: string;
+  hero_image_url?: string;
+  cta_primary_text?: string;
+  cta_secondary_text?: string;
+  about_title?: string;
+  about_content?: string;
+  impact_title?: string;
+  impact_items?: ImpactItem[];
+  testimonials?: Testimonial[];
+  custom_sections?: CustomSection[];
+  theme_color?: string;
+  background_style?: 'light' | 'dark' | 'gradient';
+  meta_title?: string;
+  meta_description?: string;
+}
+
+export interface MessengerLandingPageData {
+  messenger: {
+    id: string;
+    full_name: string;
+    landing_page_slug: string;
+    custom_goal_text?: string;
+    plan_type: PlanType;
+  };
+  content: LandingPageContent;
+}
+

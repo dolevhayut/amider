@@ -1,10 +1,88 @@
 /* Import Google Sans - Modern Hebrew font - MUST BE FIRST */
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
+/* Import Religious Font for Landing Pages */
+@font-face {
+  font-family: 'Lia Batkol';
+  src: url('/LiaBatkol-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
+
+/* Global Color Palette */
+:root {
+  --color-primary: #A4832E;      /* זהב - צבע ראשי */
+  --color-secondary: #253B49;    /* נייבי כהה - צבע משני */
+  --color-text: #FFFFFF;         /* לבן - טקסט */
+  
+  /* Gradient combinations */
+  --gradient-primary: linear-gradient(135deg, #A4832E 0%, #C4A250 100%);
+  --gradient-secondary: linear-gradient(135deg, #253B49 0%, #35516B 100%);
+  
+  /* Light variations */
+  --color-primary-light: rgba(164, 131, 46, 0.1);
+  --color-secondary-light: rgba(37, 59, 73, 0.1);
+}
 
 * {
   font-family: 'Google Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Landing Page Religious Font */
+.landing-page-title {
+  font-family: 'Lia Batkol', 'Google Sans', serif;
+}
+
+/* Landing Page Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-delay-100 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+  opacity: 0;
 }
 
 /* Mobile-first approach - Default is mobile */

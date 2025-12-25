@@ -11,7 +11,8 @@ import {
   Edit,
   Ban,
   CheckCircle,
-  Percent
+  Percent,
+  Globe
 } from 'lucide-react';
 import { StatsCard } from '../../components/shared/StatsCard';
 import { Card } from '../../components/shared/Card';
@@ -22,6 +23,7 @@ import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
 import { AddMessengerModal } from '../../components/admin/AddMessengerModal';
 import { EditMessengerModal } from '../../components/admin/EditMessengerModal';
 import { MessengerDetailsModal } from '../../components/admin/MessengerDetailsModal';
+import { EditLandingPageModal } from '../../components/admin/EditLandingPageModal';
 import { useAdminMessengers } from '../../hooks/useAdminMessengers';
 import type { MessengerWithStats } from '../../types';
 
@@ -45,6 +47,7 @@ export function Messengers() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showLandingPageModal, setShowLandingPageModal] = useState(false);
   const [selectedMessenger, setSelectedMessenger] = useState<MessengerWithStats | null>(null);
 
   const handleSearch = () => {
@@ -67,6 +70,11 @@ export function Messengers() {
 
   const handleToggleStatus = async (messengerId: string) => {
     await toggleMessengerStatus(messengerId);
+  };
+
+  const handleEditLandingPage = (messenger: MessengerWithStats) => {
+    setSelectedMessenger(messenger);
+    setShowLandingPageModal(true);
   };
 
   if (loading && !messengers.length) {
@@ -312,6 +320,13 @@ export function Messengers() {
                       <Edit className="h-4 w-4 text-gray-600" />
                     </button>
                     <button
+                      onClick={() => handleEditLandingPage(item)}
+                      className="p-1 hover:bg-gray-100 rounded transition-colors"
+                      title="ערוך דף נחיתה"
+                    >
+                      <Globe className="h-4 w-4 text-indigo-600" />
+                    </button>
+                    <button
                       onClick={() => handleToggleStatus(item.id)}
                       className="p-1 hover:bg-gray-100 rounded transition-colors"
                       title={item.is_active ? 'השהה' : 'הפעל'}
@@ -363,6 +378,15 @@ export function Messengers() {
         }}
         messenger={selectedMessenger}
         onToggleStatus={toggleMessengerStatus}
+      />
+
+      <EditLandingPageModal
+        isOpen={showLandingPageModal}
+        onClose={() => {
+          setShowLandingPageModal(false);
+          setSelectedMessenger(null);
+        }}
+        messenger={selectedMessenger}
       />
     </div>
   );
