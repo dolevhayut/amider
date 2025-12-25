@@ -44,7 +44,7 @@ export function MessengerPrayers() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">רשימת תפילות</h1>
           <HebrewDateDisplay />
         </div>
-        <p className="text-sm sm:text-base text-gray-600">כל התפילות שהתקבלו מהתורמים שלך</p>
+        <p className="text-sm sm:text-base text-gray-600">כל התפילות שהתקבלו מהלקוחות שלך</p>
       </div>
 
       {/* Stats Summary */}

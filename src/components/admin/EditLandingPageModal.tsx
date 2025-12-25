@@ -181,7 +181,7 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
                 label="כותרת משנה (אופציונלי)"
                 value={formData.hero_subtitle}
                 onChange={(e) => handleChange('hero_subtitle', e.target.value)}
-                placeholder="הצטרפו למעגל התורמים"
+                placeholder="הצטרפו למעגל הלקוחות"
               />
 
               <div>

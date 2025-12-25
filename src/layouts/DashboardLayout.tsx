@@ -19,14 +19,14 @@ interface DashboardLayoutProps {
 const navItemsByRole = {
   messenger: [
     { to: '/messenger/dashboard', icon: LayoutDashboard, label: 'לוח בקרה' },
-    { to: '/messenger/donors', icon: Users, label: 'תורמים תחתיי' },
+    { to: '/messenger/donors', icon: Users, label: 'לקוחות תחתיי' },
     { to: '/messenger/prayers', icon: Heart, label: 'רשימת תפילות' },
     { to: '/messenger/settings', icon: Settings, label: 'הגדרות' },
   ],
   admin: [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: 'סקירה כללית' },
     { to: '/admin/messengers', icon: UserCheck, label: 'ניהול שליחים' },
-    { to: '/admin/donors', icon: Users, label: 'ניהול תורמים' },
+    { to: '/admin/donors', icon: Users, label: 'ניהול לקוחות' },
     { to: '/admin/prayers', icon: Heart, label: 'תפילות' },
     { to: '/admin/campaigns', icon: TrendingUp, label: 'קמפיינים' },
     { to: '/admin/settings', icon: Settings, label: 'הגדרות' },

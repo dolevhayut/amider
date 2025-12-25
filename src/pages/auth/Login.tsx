@@ -49,7 +49,7 @@ export function Login() {
           <div className="flex justify-center mb-4">
             <img src="/logo.png" alt="עמידר" className="h-16 sm:h-20 w-auto object-contain" />
           </div>
-          <p className="text-sm sm:text-base text-gray-600">מערכת ניהול תורמים ותפילות</p>
+          <p className="text-sm sm:text-base text-gray-600">מערכת ניהול לקוחות ותפילות</p>
         </div>
         
         <form onSubmit={handleLogin} className="space-y-4">
@@ -110,7 +110,7 @@ export function Login() {
             <p>• שליח: dolevhayut1994@gmail.com / 123456</p>
           </div>
           <p className="text-xs text-gray-500 mt-2 text-center">
-            * תורמים לא נכנסים למערכת - הם משלמים דרך Cardcom חיצוני
+            * לקוחות לא נכנסים למערכת - הם משלמים דרך Cardcom חיצוני
           </p>
         </div>
       </Card>

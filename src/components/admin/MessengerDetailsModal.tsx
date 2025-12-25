@@ -80,7 +80,7 @@ export function MessengerDetailsModal({
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
-              תורמים
+              לקוחות
             </button>
             <button
               onClick={() => setActiveTab('transactions')}
@@ -125,7 +125,7 @@ export function MessengerDetailsModal({
                 <div className="bg-indigo-50 p-4 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
                     <Users className="h-4 w-4 text-indigo-600" />
-                    <span className="text-xs text-gray-600">תורמים</span>
+                    <span className="text-xs text-gray-600">לקוחות</span>
                   </div>
                   <div className="text-2xl font-bold text-gray-900">{messenger.total_donors}</div>
                   <div className="text-xs text-gray-600 mt-1">
@@ -199,16 +199,16 @@ export function MessengerDetailsModal({
             </div>
           )}
 
-          {/* Donors Tab */}
+          {/* Clients Tab */}
           {activeTab === 'donors' && (
             <div>
               <p className="text-sm text-gray-600 mb-4">
-                רשימת כל התורמים של {messenger.full_name}
+                רשימת כל הלקוחות של {messenger.full_name}
               </p>
               <div className="text-center py-8 text-gray-500">
                 <Users className="h-12 w-12 mx-auto mb-2 text-gray-300" />
-                <p className="text-sm">טעינת רשימת תורמים...</p>
-                <p className="text-xs mt-1">סה"כ {messenger.total_donors} תורמים</p>
+                <p className="text-sm">טעינת רשימת לקוחות...</p>
+                <p className="text-xs mt-1">סה"כ {messenger.total_donors} לקוחות</p>
               </div>
             </div>
           )}

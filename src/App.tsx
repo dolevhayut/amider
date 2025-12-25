@@ -8,6 +8,8 @@ import { MessengerPrayers } from './pages/messenger/Prayers';
 import { MessengerSettings } from './pages/messenger/Settings';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { Messengers } from './pages/admin/Messengers';
+import { AdminDonors } from './pages/admin/Donors';
+import { AdminPrayers } from './pages/admin/Prayers';
 import { LandingPage } from './pages/public/LandingPage';
 import { DonatePage } from './pages/public/DonatePage';
 
@@ -95,7 +97,7 @@ function App() {
             path="/admin/donors"
             element={
               <DashboardLayout requiredRole="admin">
-                <ComingSoon title="ניהול תורמים" />
+                <AdminDonors />
               </DashboardLayout>
             }
           />
@@ -103,7 +105,7 @@ function App() {
             path="/admin/prayers"
             element={
               <DashboardLayout requiredRole="admin">
-                <ComingSoon title="ניהול תפילות" />
+                <AdminPrayers />
               </DashboardLayout>
             }
           />

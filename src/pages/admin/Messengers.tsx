@@ -124,7 +124,7 @@ export function Messengers() {
             icon={Activity}
           />
           <StatsCard
-            title="תורמים כוללים"
+            title="לקוחות כוללים"
             value={stats.total_donors}
             icon={Users}
           />
@@ -260,7 +260,7 @@ export function Messengers() {
               },
               {
                 key: 'total_donors',
-                header: 'תורמים',
+                header: 'לקוחות',
                 render: (item) => (
                   <span className="font-semibold text-indigo-600">{item.total_donors}</span>
                 ),

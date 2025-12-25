@@ -107,7 +107,7 @@ export function useLandingPage(slug: string): UseLandingPageReturn {
             .from('landing_page_content')
             .insert({
               messenger_id: messengerData.id,
-              hero_description: messengerData.custom_goal_text || 'הצטרפו למעגל התורמים והשותפים שלי',
+              hero_description: messengerData.custom_goal_text || 'הצטרפו למעגל הלקוחות והשותפים שלי',
             })
             .select()
             .single();

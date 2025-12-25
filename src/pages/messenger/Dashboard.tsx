@@ -70,7 +70,7 @@ export function MessengerDashboard() {
       {/* Stats Grid - Mobile: 2 cols, Tablet: 2 cols, Desktop: 4 cols */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <StatsCard
-          title="סה''כ תורמים"
+          title="סה''כ לקוחות"
           value={stats.totalDonors}
           icon={Users}
         />
@@ -143,12 +143,12 @@ export function MessengerDashboard() {
         </div>
       </Card>
       
-      {/* Donors List */}
+      {/* Clients List */}
       <Card
         header={
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">תורמים תחתיי</h2>
-            <Badge variant="info">{donors.length} תורמים</Badge>
+            <h2 className="text-xl font-semibold text-gray-900">לקוחות תחתיי</h2>
+            <Badge variant="info">{donors.length} לקוחות</Badge>
           </div>
         }
       >
@@ -182,7 +182,7 @@ export function MessengerDashboard() {
             ]}
           />
         ) : (
-          <p className="text-center text-gray-500 py-8">אין תורמים עדיין</p>
+          <p className="text-center text-gray-500 py-8">אין לקוחות עדיין</p>
         )}
       </Card>
       

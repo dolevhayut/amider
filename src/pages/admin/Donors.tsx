@@ -1,4 +1,4 @@
-import { Users, Search, Download, Eye } from 'lucide-react';
+import { Users, Search, Download, TrendingUp, Eye } from 'lucide-react';
 import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
 import { DataTable } from '../../components/shared/DataTable';
@@ -6,34 +6,52 @@ import { Badge } from '../../components/shared/Badge';
 import { Input } from '../../components/shared/Input';
 import { HebrewDateDisplay } from '../../components/shared/HebrewDateDisplay';
 import { DonorDetailsModal } from '../../components/messenger/DonorDetailsModal';
-import { useMessengerData } from '../../hooks/useMessengerData';
+import { useAdminDonors, type AdminDonorData } from '../../hooks/useAdminDonors';
 import { useMessengerDonors, type DonorData } from '../../hooks/useMessengerDonors';
 import { useState } from 'react';
 
-export function MessengerDonors() {
-  const { profile, loading: profileLoading } = useMessengerData();
+export function AdminDonors() {
+  const { donors, loading, error } = useAdminDonors();
   const {
-    donors,
-    loading: donorsLoading,
     pauseDonorRoute,
     reactivateDonorRoute,
     changeDonorRoute,
     fetchDonorPayments,
     fetchDonorPrayers,
-  } = useMessengerDonors(profile?.id);
+  } = useMessengerDonors(); // Using without messengerId - will work for individual operations
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'cancelled'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'monthly' | 'one_time'>('all');
   const [selectedDonor, setSelectedDonor] = useState<DonorData | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
 
-  const loading = profileLoading || donorsLoading;
+  const handleViewDetails = (adminDonor: AdminDonorData) => {
+    // Convert AdminDonorData to DonorData format for the modal
+    const donorData: DonorData = {
+      id: adminDonor.id,
+      name: adminDonor.name,
+      email: adminDonor.email,
+      phone: adminDonor.phone,
+      subscriptionType: adminDonor.subscriptionType,
+      subscriptionStatus: adminDonor.subscriptionStatus,
+      joinDate: adminDonor.joinDate,
+      nextPaymentDate: null, // Not fetched in admin view
+      hebrewBirthDate: null, // Not fetched in admin view
+      cancelledAt: null, // Not fetched in admin view
+    };
+    setSelectedDonor(donorData);
+    setShowDetailsModal(true);
+  };
 
-  // Filter donors based on search and status
+  // Filter donors based on search, status, and type
   const filteredDonors = donors.filter(donor => {
     const matchesSearch = donor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         donor.email.toLowerCase().includes(searchTerm.toLowerCase());
+                         donor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         donor.messengerName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || donor.subscriptionStatus === filterStatus;
-    return matchesSearch && matchesStatus;
+    const matchesType = filterType === 'all' || donor.subscriptionType === filterType;
+    return matchesSearch && matchesStatus && matchesType;
   });
 
   if (loading) {
@@ -47,6 +65,17 @@ export function MessengerDonors() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">שגיאה בטעינת הנתונים</p>
+          <p className="text-gray-600 text-sm">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 sm:space-y-6 pb-20 md:pb-0">
       <div>
@@ -54,7 +83,7 @@ export function MessengerDonors() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">ניהול לקוחות</h1>
           <HebrewDateDisplay />
         </div>
-        <p className="text-sm sm:text-base text-gray-600">רשימת כל הלקוחות שלך</p>
+        <p className="text-sm sm:text-base text-gray-600">כל הלקוחות במערכת מכל השליחים</p>
       </div>
 
       {/* Stats Summary */}
@@ -100,7 +129,7 @@ export function MessengerDonors() {
                 <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
                   type="text"
-                  placeholder="חפש לפי שם או אימייל..."
+                  placeholder="חפש לפי שם, אימייל או שליח..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pr-10"
@@ -117,6 +146,15 @@ export function MessengerDonors() {
                 <option value="active">פעילים</option>
                 <option value="cancelled">מבוטלים</option>
               </select>
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value as any)}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              >
+                <option value="all">כל הסוגים</option>
+                <option value="monthly">חודשי</option>
+                <option value="one_time">חד-פעמי</option>
+              </select>
               <Button variant="secondary" size="sm">
                 <Download className="h-4 w-4" />
                 <span className="hidden sm:inline">ייצוא</span>
@@ -126,7 +164,7 @@ export function MessengerDonors() {
         </div>
       </Card>
 
-      {/* Clients Table */}
+      {/* Donors Table */}
       <Card
         header={
           <div className="flex items-center justify-between">
@@ -144,7 +182,7 @@ export function MessengerDonors() {
             columns={[
               { 
                 key: 'name', 
-                header: 'שם',
+                header: 'שם לקוח',
                 render: (item) => (
                   <div>
                     <p className="font-medium text-gray-900">{item.name}</p>
@@ -159,6 +197,16 @@ export function MessengerDonors() {
                 header: 'אימייל',
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.email}</span>
+                )
+              },
+              { 
+                key: 'messengerName', 
+                header: 'שליח',
+                render: (item) => (
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3 text-indigo-500" />
+                    <span className="text-sm font-medium text-indigo-600">{item.messengerName}</span>
+                  </div>
                 )
               },
               {
@@ -192,15 +240,6 @@ export function MessengerDonors() {
                 )
               },
               {
-                key: 'nextPaymentDate',
-                header: 'תשלום הבא',
-                render: (item) => (
-                  <span className="text-sm text-gray-600">
-                    {item.nextPaymentDate || '-'}
-                  </span>
-                ),
-              },
-              {
                 key: 'actions',
                 header: 'פעולות',
                 render: (item) => (
@@ -209,8 +248,7 @@ export function MessengerDonors() {
                     size="sm"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedDonor(item);
-                      setShowDetailsModal(true);
+                      handleViewDetails(item);
                     }}
                   >
                     <Eye className="h-4 w-4" />
@@ -219,10 +257,7 @@ export function MessengerDonors() {
                 ),
               },
             ]}
-            onRowClick={(item) => {
-              setSelectedDonor(item);
-              setShowDetailsModal(true);
-            }}
+            onRowClick={(item) => handleViewDetails(item)}
           />
         ) : (
           <div className="text-center py-12">
