@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, DollarSign, Wallet, Heart, Copy, QrCode, Share2 } from 'lucide-react';
+import { Users, DollarSign, Wallet, Heart, Copy, QrCode, Share2, TrendingUp } from 'lucide-react';
 import { StatsCard } from '../../components/shared/StatsCard';
 import { Card } from '../../components/shared/Card';
 import { Button } from '../../components/shared/Button';
@@ -12,6 +12,16 @@ import { useMessengerData } from '../../hooks/useMessengerData';
 import { useMessengerDonors } from '../../hooks/useMessengerDonors';
 import { useWithdrawals } from '../../hooks/useWithdrawals';
 import { useLeaderboard } from '../../hooks/useLeaderboard';
+import { useAnalytics } from '../../hooks/useAnalytics';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 export function MessengerDashboard() {
   const [copied, setCopied] = useState(false);
@@ -20,6 +30,7 @@ export function MessengerDashboard() {
   const { donors } = useMessengerDonors(profile?.id);
   const { withdrawals, requestWithdrawal } = useWithdrawals(profile?.id);
   const { myRankInfo, loading: rankLoading } = useLeaderboard(profile?.id);
+  const { messengerGrowth, loading: analyticsLoading } = useAnalytics(profile?.id);
   
   const landingPageUrl = profile 
     ? `${window.location.origin}/m/${profile.landing_page_slug}`
@@ -168,6 +179,77 @@ export function MessengerDashboard() {
                 <p className="text-gray-600">טוען דירוג...</p>
               </div>
             )}
+          </div>
+        </Card>
+      )}
+
+      {/* My Growth Chart */}
+      {!analyticsLoading && messengerGrowth.length > 0 && (
+        <Card
+          header={
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-gray-600" />
+              <h2 className="text-xl font-semibold text-gray-900">הצמיחה שלי - 6 חודשים אחרונים</h2>
+            </div>
+          }
+        >
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={messengerGrowth}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis 
+                  dataKey="month" 
+                  tick={{ fill: '#6b7280', fontSize: 11 }}
+                  reversed={true}
+                />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 11 }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#fff', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    direction: 'rtl',
+                    fontSize: '12px'
+                  }}
+                  labelStyle={{ fontWeight: 'bold' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="donors" 
+                  stroke="#4f46e5" 
+                  strokeWidth={3}
+                  name="לקוחות חדשים"
+                  dot={{ fill: '#4f46e5', r: 4 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="activeDonors" 
+                  stroke="#10b981" 
+                  strokeWidth={3}
+                  name="לקוחות פעילים"
+                  dot={{ fill: '#10b981', r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 text-center">
+            <div className="bg-indigo-50 p-3 rounded-lg">
+              <p className="text-xs text-gray-600 mb-1">סה"כ לקוחות חדשים</p>
+              <p className="text-2xl font-bold text-indigo-600">
+                {messengerGrowth.reduce((sum, m) => sum + m.donors, 0)}
+              </p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <p className="text-xs text-gray-600 mb-1">ממוצע חודשי</p>
+              <p className="text-2xl font-bold text-green-600">
+                {Math.round(messengerGrowth.reduce((sum, m) => sum + m.donors, 0) / messengerGrowth.length)}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 p-3 bg-purple-50 rounded-lg">
+            <p className="text-xs text-gray-700">
+              📈 <strong>טיפ:</strong> גרף עולה = אתה מצליח! כל לקוח חדש מוסיף הכנסה חודשית קבועה.
+            </p>
           </div>
         </Card>
       )}

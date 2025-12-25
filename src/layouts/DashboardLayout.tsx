@@ -9,7 +9,8 @@ import {
   TrendingUp,
   Briefcase,
   Wallet,
-  Trophy
+  Trophy,
+  BarChart3
 } from 'lucide-react';
 import { Sidebar } from '../components/shared/Sidebar';
 import { useAuth } from '../contexts/AuthContext';
@@ -33,6 +34,7 @@ const navItemsByRole = {
     { to: '/admin/donors', icon: Users, label: 'ניהול לקוחות' },
     { to: '/admin/prayers', icon: Heart, label: 'תפילות' },
     { to: '/admin/leaderboard', icon: Trophy, label: 'טבלת מובילים' },
+    { to: '/admin/analytics', icon: BarChart3, label: 'דוחות וגרפים' },
     { to: '/admin/withdrawals', icon: Wallet, label: 'משיכות' },
     { to: '/admin/campaigns', icon: TrendingUp, label: 'קמפיינים' },
     { to: '/admin/settings', icon: Settings, label: 'הגדרות' },

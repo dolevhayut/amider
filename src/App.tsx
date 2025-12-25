@@ -13,6 +13,7 @@ import { AdminDonors } from './pages/admin/Donors';
 import { AdminPrayers } from './pages/admin/Prayers';
 import { AdminWithdrawals } from './pages/admin/Withdrawals';
 import { AdminLeaderboard } from './pages/admin/Leaderboard';
+import { AdminAnalytics } from './pages/admin/Analytics';
 import { LandingPage } from './pages/public/LandingPage';
 import { DonatePage } from './pages/public/DonatePage';
 
@@ -125,6 +126,14 @@ function App() {
             element={
               <DashboardLayout requiredRole="admin">
                 <AdminLeaderboard />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/admin/analytics"
+            element={
+              <DashboardLayout requiredRole="admin">
+                <AdminAnalytics />
               </DashboardLayout>
             }
           />
