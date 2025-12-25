@@ -46,11 +46,7 @@ export function LandingPage() {
     <div 
       className="min-h-screen"
       style={{ 
-        background: content.background_style === 'gradient' 
-          ? `linear-gradient(135deg, ${primaryColor}15 0%, #f8f9fa 50%, ${primaryColor}08 100%)`
-          : content.background_style === 'dark'
-          ? secondaryColor
-          : '#ffffff'
+        backgroundColor: content.background_style === 'dark' ? secondaryColor : '#ffffff'
       }}
     >
       {/* Fixed Header */}
@@ -87,10 +83,14 @@ export function LandingPage() {
           }}
         />
         
-        {/* Light beige overlay like the original site */}
+        {/* Overlay - light beige for 'light' style, dark for 'dark' style */}
         <div 
           className="absolute inset-0" 
-          style={{ backgroundColor: 'rgba(238, 230, 213, 0.75)' }}
+          style={{ 
+            backgroundColor: content.background_style === 'dark' 
+              ? 'rgba(0, 0, 0, 0.5)' 
+              : 'rgba(238, 230, 213, 0.75)' 
+          }}
         />
         
         <div className="container mx-auto px-4 py-16 sm:py-24 relative z-10">
@@ -98,7 +98,9 @@ export function LandingPage() {
             {/* Main Title with Religious Font */}
             <h1 
               className="landing-page-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight animate-fade-in-up"
-              style={{ color: primaryColor }}
+              style={{ 
+                color: content.background_style === 'dark' ? '#FFFFFF' : primaryColor 
+              }}
             >
               {content.hero_title}
             </h1>
@@ -106,7 +108,9 @@ export function LandingPage() {
             {/* Description */}
             <p 
               className="text-lg sm:text-xl mb-4 leading-relaxed px-4 animate-fade-in-up animate-delay-100"
-              style={{ color: secondaryColor }}
+              style={{ 
+                color: content.background_style === 'dark' ? '#FFFFFF' : secondaryColor 
+              }}
             >
               {content.hero_description}
             </p>
@@ -114,7 +118,9 @@ export function LandingPage() {
             {/* Bold highlight - like the original site */}
             <p 
               className="text-lg sm:text-xl font-bold mb-12 px-4"
-              style={{ color: secondaryColor }}
+              style={{ 
+                color: content.background_style === 'dark' ? '#FFFFFF' : secondaryColor 
+              }}
             >
               וכל הטוב הזה בהשתתפות סמלית רק של 1 ש"ח ביום.
             </p>
@@ -139,6 +145,16 @@ export function LandingPage() {
                 <ArrowLeft className="h-4 w-4 mr-2" />
               </Button>
             </div>
+
+            {/* Messenger Name */}
+            <p 
+              className="mt-12 text-sm font-medium"
+              style={{ 
+                color: content.background_style === 'dark' ? '#FFFFFF' : secondaryColor 
+              }}
+            >
+              מתפלל עליך: {messenger.full_name}
+            </p>
           </div>
         </div>
       </section>

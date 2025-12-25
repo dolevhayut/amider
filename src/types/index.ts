@@ -204,7 +204,7 @@ export interface LandingPageContent {
   
   // Design Settings
   theme_color: string;
-  background_style: 'light' | 'dark' | 'gradient';
+  background_style: 'light' | 'dark';
   
   // SEO
   meta_title?: string;
@@ -229,7 +229,7 @@ export interface UpdateLandingPageContent {
   testimonials?: Testimonial[];
   custom_sections?: CustomSection[];
   theme_color?: string;
-  background_style?: 'light' | 'dark' | 'gradient';
+  background_style?: 'light' | 'dark';
   meta_title?: string;
   meta_description?: string;
 }

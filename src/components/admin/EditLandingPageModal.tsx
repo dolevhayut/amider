@@ -29,13 +29,17 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
     about_content: '',
     impact_title: '',
     theme_color: '#A4832E',
-    background_style: 'gradient' as 'light' | 'dark' | 'gradient',
+    background_style: 'light' as 'light' | 'dark',
   });
 
   const [impactItems, setImpactItems] = useState<ImpactItem[]>([]);
 
   useEffect(() => {
     if (content) {
+      const bgStyle = content.background_style === 'light' || content.background_style === 'dark' 
+        ? content.background_style 
+        : 'light';
+      
       setFormData({
         hero_title: content.hero_title,
         hero_subtitle: content.hero_subtitle || '',
@@ -46,7 +50,7 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
         about_content: content.about_content || '',
         impact_title: content.impact_title,
         theme_color: content.theme_color,
-        background_style: content.background_style,
+        background_style: bgStyle,
       });
       setImpactItems(content.impact_items || []);
     }
@@ -95,7 +99,6 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
       isOpen={isOpen}
       onClose={onClose}
       title={`עריכת דף נחיתה - ${messenger.full_name}`}
-      size="large"
     >
       <div className="space-y-6">
         {/* Preview Link */}
@@ -333,10 +336,10 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  סגנון רקע
+                  סגנון רקע הירו
                 </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {(['light', 'dark', 'gradient'] as const).map((style) => (
+                <div className="grid grid-cols-2 gap-3">
+                  {(['light', 'dark'] as const).map((style) => (
                     <button
                       key={style}
                       onClick={() => handleChange('background_style', style)}
@@ -347,13 +350,15 @@ export function EditLandingPageModal({ isOpen, onClose, messenger }: EditLanding
                       }`}
                     >
                       <div className="text-sm font-medium">
-                        {style === 'light' && 'בהיר'}
-                        {style === 'dark' && 'כהה'}
-                        {style === 'gradient' && 'גרדיאנט'}
+                        {style === 'light' && 'בהיר (overlay קרמי)'}
+                        {style === 'dark' && 'כהה (overlay שחור)'}
                       </div>
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  בהיר: כותרת ותיאור בצבע כהה | כהה: כותרת ותיאור בצבע לבן
+                </p>
               </div>
             </>
           )}

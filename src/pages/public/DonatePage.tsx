@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useLandingPage } from '../../hooks';
 import { Button } from '../../components/shared/Button';
 import { Card } from '../../components/shared/Card';
@@ -14,12 +14,21 @@ interface PrayerName {
 export function DonatePage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { data, loading, error } = useLandingPage(slug || '');
   
   const [names, setNames] = useState<PrayerName[]>([
     { id: '1', name: '', motherName: '' }
   ]);
   const [prayerFor, setPrayerFor] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
+
+  useEffect(() => {
+    const planParam = searchParams.get('plan');
+    if (planParam === 'monthly' || planParam === 'yearly') {
+      setSelectedPlan(planParam);
+    }
+  }, [searchParams]);
 
   if (loading) {
     return (
@@ -85,6 +94,8 @@ export function DonatePage() {
     const prayerData = {
       names: filledNames,
       prayerFor: prayerFor,
+      plan: selectedPlan,
+      amount: selectedPlan === 'yearly' ? 360 : 30,
       messenger_id: messenger.id,
       messenger_slug: slug,
     };
@@ -94,7 +105,7 @@ export function DonatePage() {
 
     // TODO: מעבר לדף תשלום שנגדיר בעתיד
     console.log('Prayer data submitted:', prayerData);
-    alert(`תודה!\n\nקיבלנו את הפרטים:\n${filledNames.length} שמות לתפילה\nעבור: ${prayerFor}\n\nבשלב הבא נעביר אתכם לדף תשלום...`);
+    alert(`תודה!\n\nקיבלנו את הפרטים:\n• ${filledNames.length} שמות לתפילה\n• עבור: ${prayerFor}\n• תוכנית: ${selectedPlan === 'yearly' ? 'שנה שלמה' : 'חודשי'}\n• סכום: ₪${prayerData.amount}\n\nבשלב הבא נעביר אתכם לדף תשלום...`);
     
     // נעביר לדף תשלום עתידי
     // navigate(`/m/${slug}/checkout`);
@@ -103,9 +114,7 @@ export function DonatePage() {
   return (
     <div 
       className="min-h-screen"
-      style={{ 
-        background: `linear-gradient(135deg, ${primaryColor}15 0%, #f8f9fa 50%, ${primaryColor}08 100%)`
-      }}
+      style={{ backgroundColor: '#f9fafb' }}
     >
       {/* Fixed Header */}
       <header 
@@ -143,11 +152,14 @@ export function DonatePage() {
                 style={{ color: primaryColor }}
               />
             </div>
-            <h1 className="landing-page-title text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="landing-page-title text-3xl font-bold mb-2" style={{ color: primaryColor }}>
               מי נזכיר בתפילה?
             </h1>
-            <p className="text-gray-600 text-base">
+            <p className="text-gray-600 text-base mb-1">
               {messenger.full_name} יתפלל עבורכם מידי יום בקברות הצדיקים
+            </p>
+            <p className="text-sm font-medium" style={{ color: primaryColor }}>
+              תוכנית: {selectedPlan === 'yearly' ? 'שנה שלמה (360 ש״ח)' : 'חודשי (30 ש״ח לחודש)'}
             </p>
           </div>
 
@@ -226,14 +238,14 @@ export function DonatePage() {
 
           {/* Submit Button */}
           <div 
-            className="p-4 rounded-lg mb-4"
+            className="p-4 rounded-lg mb-4 text-center"
             style={{ backgroundColor: primaryColor + '10' }}
           >
-            <p className="text-xs text-center text-gray-600 mb-2">
-              לאחר מילוי הפרטים נעביר אתכם לבחירת תוכנית ותשלום
+            <p className="text-sm font-medium mb-1" style={{ color: primaryColor }}>
+              סה״כ לתשלום: ₪{selectedPlan === 'yearly' ? 360 : 30}
             </p>
-            <p className="text-sm text-center font-medium" style={{ color: primaryColor }}>
-              מחיר: 1 ש״ח ליום לכל שם (30 ש״ח לחודש)
+            <p className="text-xs text-gray-600">
+              {selectedPlan === 'yearly' ? 'שנה שלמה - 1 ש״ח ליום' : 'חודש אחד - חיוב חודשי'}
             </p>
           </div>
 
