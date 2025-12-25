@@ -211,7 +211,6 @@ export function MessengerDonors() {
               {
                 key: 'actions',
                 header: 'פעולות',
-                hideOnMobile: true,
                 render: (item) => (
                   <Button
                     variant="ghost"

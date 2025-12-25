@@ -43,26 +43,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Check current auth session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        await fetchUserData(session.user.id);
-      }
-      setLoading(false);
-    });
+    let mounted = true;
 
-    // Listen for auth changes
+    // Supabase v2: onAuthStateChange fires INITIAL_SESSION on registration
+    // So we only need this listener - no separate getSession call needed
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        await fetchUserData(session.user.id);
+      console.log('Auth event:', event, session?.user?.email);
+      
+      if (!mounted) return;
+
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        if (session?.user) {
+          const userData = await fetchUserData(session.user.id);
+          if (!userData && mounted) {
+            console.error('Failed to fetch user data');
+            // Don't sign out on INITIAL_SESSION - might be a DB issue
+            if (event === 'SIGNED_IN') {
+              await supabase.auth.signOut();
+            }
+          }
+        }
+        if (mounted) setLoading(false);
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
         setRole(null);
+        if (mounted) setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string) => {

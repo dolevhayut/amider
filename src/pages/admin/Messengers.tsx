@@ -313,7 +313,6 @@ export function Messengers() {
               {
                 key: 'actions',
                 header: 'פעולות',
-                hideOnMobile: true,
                 render: (item) => (
                   <div className="flex items-center gap-1">
                     <button

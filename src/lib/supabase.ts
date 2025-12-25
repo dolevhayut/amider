@@ -12,6 +12,14 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient<Database>(
   supabaseUrl || '',
-  supabaseAnonKey || ''
+  supabaseAnonKey || '',
+  {
+    auth: {
+      persistSession: true,
+      storageKey: 'amidar-auth-token',
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    }
+  }
 );
 

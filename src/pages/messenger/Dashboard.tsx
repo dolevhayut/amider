@@ -356,7 +356,7 @@ export function MessengerDashboard() {
                 key: 'joinDate', 
                 header: 'תאריך הצטרפות',
                 mobileLabel: 'הצטרף',
-                hideOnMobile: true
+                mobileOrder: 999
               },
             ]}
           />

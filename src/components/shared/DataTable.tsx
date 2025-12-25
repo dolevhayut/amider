@@ -77,34 +77,51 @@ export function DataTable<T extends Record<string, any>>({
             אין נתונים להצגה
           </div>
         ) : (
-          data.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => onRowClick?.(item)}
-              className={`bg-white border border-gray-200 rounded-lg p-4 space-y-3 ${
-                onRowClick ? 'cursor-pointer active:bg-gray-50 transition-colors' : ''
-              }`}
-            >
-              {mobileColumns.map((column) => {
-                const value = column.render ? column.render(item) : item[column.key];
-                const label = column.mobileLabel || column.header;
+          data.map((item, index) => {
+            // Find actions column
+            const actionsColumn = columns.find(col => col.key === 'actions');
+            
+            return (
+              <div
+                key={index}
+                className="bg-white border border-gray-200 rounded-lg p-4 space-y-3"
+              >
+                {/* Regular data fields */}
+                <div
+                  onClick={() => onRowClick?.(item)}
+                  className={onRowClick ? 'cursor-pointer space-y-3' : 'space-y-3'}
+                >
+                  {mobileColumns.map((column) => {
+                    const value = column.render ? column.render(item) : item[column.key];
+                    const label = column.mobileLabel || column.header;
+                    
+                    // Skip rendering if value is null/undefined/empty
+                    if (value === null || value === undefined || value === '') return null;
+                    
+                    return (
+                      <div key={column.key} className="flex justify-between items-start gap-3">
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider flex-shrink-0">
+                          {label}
+                        </span>
+                        <div className="text-sm text-gray-900 text-right flex-1">
+                          {value}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
                 
-                // Skip rendering if value is null/undefined/empty
-                if (value === null || value === undefined || value === '') return null;
-                
-                return (
-                  <div key={column.key} className="flex justify-between items-start gap-3">
-                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wider flex-shrink-0">
-                      {label}
-                    </span>
-                    <div className="text-sm text-gray-900 text-right flex-1">
-                      {value}
+                {/* Actions at bottom of card */}
+                {actionsColumn && (
+                  <div className="pt-3 border-t border-gray-100">
+                    <div className="flex justify-end gap-2">
+                      {actionsColumn.render ? actionsColumn.render(item) : item[actionsColumn.key]}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          ))
+                )}
+              </div>
+            );
+          })
         )}
       </div>
     </>
