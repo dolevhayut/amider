@@ -21,12 +21,24 @@ export function LandingPage() {
   }
 
   if (error || !data) {
+    // Check if it's a configuration error
+    const isConfigError = error?.includes('Missing Supabase') || error?.includes('environment');
+    
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <Card className="max-w-md mx-4 text-center">
           <div className="text-6xl mb-4">😕</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">הדף לא נמצא</h1>
-          <p className="text-gray-600 mb-6">{error || 'לא הצלחנו למצוא את הדף שחיפשת'}</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            {isConfigError ? 'שגיאת תצורה' : 'הדף לא נמצא'}
+          </h1>
+          <p className="text-gray-600 mb-6">
+            {error || 'לא הצלחנו למצוא את הדף שחיפשת'}
+          </p>
+          {isConfigError && (
+            <p className="text-sm text-red-600 mb-4">
+              אנא ודא שהמשתנים הסביבתיים מוגדרים נכון ב-Vercel
+            </p>
+          )}
           <Button onClick={() => navigate('/')} variant="secondary">
             <ArrowLeft className="h-4 w-4" />
             חזרה לדף הבית

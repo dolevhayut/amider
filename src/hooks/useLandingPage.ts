@@ -144,7 +144,20 @@ export function useLandingPage(slug: string): UseLandingPageReturn {
       }
     } catch (err) {
       console.error('Error fetching landing page:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load page');
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : typeof err === 'object' && err !== null && 'message' in err
+        ? String(err.message)
+        : 'Failed to load page';
+      
+      // Log more details for debugging
+      if (err instanceof Error && 'code' in err) {
+        console.error('Error code:', (err as any).code);
+        console.error('Error details:', (err as any).details);
+        console.error('Error hint:', (err as any).hint);
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
