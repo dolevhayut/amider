@@ -65,7 +65,7 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50">
       {/* Mobile: Sidebar at bottom, Desktop: Sidebar on right */}
-      <main className="flex-1 overflow-y-auto order-1 md:order-2">
+      <main className="flex-1 overflow-y-auto order-1 md:order-2 pt-14 md:pt-0">
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
           {children}
         </div>

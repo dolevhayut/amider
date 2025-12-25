@@ -240,6 +240,7 @@ export function AdminDashboard() {
                     { 
                       key: 'name', 
                       header: 'שם',
+                      mobileOrder: 1,
                       render: (item) => (
                         <div>
                           <p className="font-bold text-gray-900">{item.name}</p>
@@ -250,6 +251,7 @@ export function AdminDashboard() {
                     { 
                       key: 'donors', 
                       header: 'לקוחות',
+                      mobileOrder: 2,
                       render: (item) => (
                         <span className="font-semibold text-indigo-600">{item.donors}</span>
                       )
@@ -257,6 +259,7 @@ export function AdminDashboard() {
                     { 
                       key: 'activeSubscriptions', 
                       header: 'פעילים',
+                      mobileOrder: 3,
                       render: (item) => (
                         <span className="font-semibold text-green-600">{item.activeSubscriptions}</span>
                       )
@@ -264,6 +267,7 @@ export function AdminDashboard() {
                     { 
                       key: 'joinDate', 
                       header: 'הצטרף',
+                      hideOnMobile: true,
                       render: (item) => (
                         <span className="text-sm text-gray-600">{item.joinDate}</span>
                       )
@@ -286,11 +290,21 @@ export function AdminDashboard() {
                 <DataTable
                   data={recentDonors}
                   columns={[
-                    { key: 'name', header: 'שם' },
-                    { key: 'messengerName', header: 'שליח' },
+                    { 
+                      key: 'name', 
+                      header: 'שם',
+                      mobileOrder: 1
+                    },
+                    { 
+                      key: 'messengerName', 
+                      header: 'שליח',
+                      mobileOrder: 2
+                    },
                     {
                       key: 'subscriptionType',
                       header: 'סוג מנוי',
+                      mobileLabel: 'סוג',
+                      mobileOrder: 3,
                       render: (item) => (
                         <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
                           {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
@@ -300,13 +314,18 @@ export function AdminDashboard() {
                     {
                       key: 'subscriptionStatus',
                       header: 'סטטוס',
+                      mobileOrder: 4,
                       render: (item) => (
                         <Badge variant={item.subscriptionStatus === 'active' ? 'success' : 'warning'}>
                           {item.subscriptionStatus === 'active' ? 'פעיל' : item.subscriptionStatus}
                         </Badge>
                       ),
                     },
-                    { key: 'joinDate', header: 'הצטרף' },
+                    { 
+                      key: 'joinDate', 
+                      header: 'הצטרף',
+                      hideOnMobile: true
+                    },
                   ]}
                 />
               ) : (

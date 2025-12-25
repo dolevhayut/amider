@@ -183,6 +183,8 @@ export function AdminDonors() {
               { 
                 key: 'name', 
                 header: 'שם לקוח',
+                mobileLabel: 'שם',
+                mobileOrder: 1,
                 render: (item) => (
                   <div>
                     <p className="font-medium text-gray-900">{item.name}</p>
@@ -195,6 +197,7 @@ export function AdminDonors() {
               { 
                 key: 'email', 
                 header: 'אימייל',
+                mobileOrder: 2,
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.email}</span>
                 )
@@ -202,6 +205,7 @@ export function AdminDonors() {
               { 
                 key: 'messengerName', 
                 header: 'שליח',
+                mobileOrder: 3,
                 render: (item) => (
                   <div className="flex items-center gap-1">
                     <TrendingUp className="h-3 w-3 text-indigo-500" />
@@ -212,6 +216,8 @@ export function AdminDonors() {
               {
                 key: 'subscriptionType',
                 header: 'סוג מנוי',
+                mobileLabel: 'סוג',
+                mobileOrder: 4,
                 render: (item) => (
                   <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
                     {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
@@ -221,6 +227,7 @@ export function AdminDonors() {
               {
                 key: 'subscriptionStatus',
                 header: 'סטטוס',
+                mobileOrder: 5,
                 render: (item) => {
                   const statusConfig = {
                     active: { variant: 'success' as const, label: 'פעיל' },
@@ -235,6 +242,8 @@ export function AdminDonors() {
               { 
                 key: 'joinDate', 
                 header: 'תאריך הצטרפות',
+                mobileLabel: 'הצטרף',
+                hideOnMobile: true,
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.joinDate}</span>
                 )
@@ -242,6 +251,7 @@ export function AdminDonors() {
               {
                 key: 'actions',
                 header: 'פעולות',
+                hideOnMobile: true,
                 render: (item) => (
                   <Button
                     variant="ghost"

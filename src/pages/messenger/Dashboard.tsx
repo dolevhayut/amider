@@ -319,11 +319,21 @@ export function MessengerDashboard() {
           <DataTable
             data={donors}
             columns={[
-              { key: 'name', header: 'שם' },
-              { key: 'email', header: 'אימייל' },
+              { 
+                key: 'name', 
+                header: 'שם',
+                mobileOrder: 1
+              },
+              { 
+                key: 'email', 
+                header: 'אימייל',
+                mobileOrder: 2
+              },
               {
                 key: 'subscriptionType',
                 header: 'סוג מנוי',
+                mobileLabel: 'סוג',
+                mobileOrder: 3,
                 render: (item) => (
                   <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
                     {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
@@ -333,6 +343,7 @@ export function MessengerDashboard() {
               {
                 key: 'subscriptionStatus',
                 header: 'סטטוס',
+                mobileOrder: 4,
                 render: (item) => (
                   <Badge variant={item.subscriptionStatus === 'active' ? 'success' : 'danger'}>
                     {item.subscriptionStatus === 'active' ? 'פעיל' : 
@@ -341,7 +352,12 @@ export function MessengerDashboard() {
                   </Badge>
                 ),
               },
-              { key: 'joinDate', header: 'תאריך הצטרפות' },
+              { 
+                key: 'joinDate', 
+                header: 'תאריך הצטרפות',
+                mobileLabel: 'הצטרף',
+                hideOnMobile: true
+              },
             ]}
           />
         ) : (

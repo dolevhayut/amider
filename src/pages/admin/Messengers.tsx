@@ -232,6 +232,7 @@ export function Messengers() {
               {
                 key: 'full_name',
                 header: 'שם',
+                mobileOrder: 1,
                 render: (item) => (
                   <div>
                     <p className="font-medium text-gray-900">{item.full_name}</p>
@@ -242,6 +243,8 @@ export function Messengers() {
               {
                 key: 'email',
                 header: 'פרטי קשר',
+                mobileLabel: 'אימייל',
+                mobileOrder: 2,
                 render: (item) => (
                   <div>
                     <p className="text-sm text-gray-900">{item.email}</p>
@@ -254,6 +257,7 @@ export function Messengers() {
               {
                 key: 'plan_type',
                 header: 'תוכנית',
+                mobileOrder: 3,
                 render: (item) => (
                   <Badge variant="info">{item.plan_type}</Badge>
                 ),
@@ -261,6 +265,7 @@ export function Messengers() {
               {
                 key: 'total_donors',
                 header: 'לקוחות',
+                mobileOrder: 4,
                 render: (item) => (
                   <span className="font-semibold text-indigo-600">{item.total_donors}</span>
                 ),
@@ -268,6 +273,7 @@ export function Messengers() {
               {
                 key: 'active_subscriptions',
                 header: 'פעילים',
+                mobileOrder: 5,
                 render: (item) => (
                   <span className="font-medium">{item.active_subscriptions}</span>
                 ),
@@ -275,6 +281,8 @@ export function Messengers() {
               {
                 key: 'this_month_revenue',
                 header: 'הכנסות החודש',
+                mobileLabel: 'הכנסות',
+                hideOnMobile: true,
                 render: (item) => (
                   <span className="font-semibold text-green-600">
                     ₪{item.this_month_revenue.toFixed(0)}
@@ -284,6 +292,7 @@ export function Messengers() {
               {
                 key: 'commission_rate_one_time',
                 header: 'עמלה',
+                hideOnMobile: true,
                 render: (item) => (
                   <span className="flex items-center gap-1 text-purple-600">
                     <Percent className="h-3 w-3" />
@@ -294,6 +303,7 @@ export function Messengers() {
               {
                 key: 'is_active',
                 header: 'סטטוס',
+                mobileOrder: 6,
                 render: (item) => (
                   <Badge variant={item.is_active ? 'success' : 'danger'}>
                     {item.is_active ? 'פעיל' : 'מושהה'}
@@ -303,6 +313,7 @@ export function Messengers() {
               {
                 key: 'actions',
                 header: 'פעולות',
+                hideOnMobile: true,
                 render: (item) => (
                   <div className="flex items-center gap-1">
                     <button

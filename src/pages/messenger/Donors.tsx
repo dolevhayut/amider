@@ -145,6 +145,7 @@ export function MessengerDonors() {
               { 
                 key: 'name', 
                 header: 'שם',
+                mobileOrder: 1,
                 render: (item) => (
                   <div>
                     <p className="font-medium text-gray-900">{item.name}</p>
@@ -157,6 +158,7 @@ export function MessengerDonors() {
               { 
                 key: 'email', 
                 header: 'אימייל',
+                mobileOrder: 2,
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.email}</span>
                 )
@@ -164,6 +166,8 @@ export function MessengerDonors() {
               {
                 key: 'subscriptionType',
                 header: 'סוג מנוי',
+                mobileLabel: 'סוג',
+                mobileOrder: 3,
                 render: (item) => (
                   <Badge variant={item.subscriptionType === 'monthly' ? 'success' : 'info'}>
                     {item.subscriptionType === 'monthly' ? 'חודשי' : 'חד-פעמי'}
@@ -173,6 +177,7 @@ export function MessengerDonors() {
               {
                 key: 'subscriptionStatus',
                 header: 'סטטוס',
+                mobileOrder: 4,
                 render: (item) => {
                   const statusConfig = {
                     active: { variant: 'success' as const, label: 'פעיל' },
@@ -187,6 +192,8 @@ export function MessengerDonors() {
               { 
                 key: 'joinDate', 
                 header: 'תאריך הצטרפות',
+                mobileLabel: 'הצטרף',
+                mobileOrder: 5,
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.joinDate}</span>
                 )
@@ -194,6 +201,7 @@ export function MessengerDonors() {
               {
                 key: 'nextPaymentDate',
                 header: 'תשלום הבא',
+                hideOnMobile: true,
                 render: (item) => (
                   <span className="text-sm text-gray-600">
                     {item.nextPaymentDate || '-'}
@@ -203,6 +211,7 @@ export function MessengerDonors() {
               {
                 key: 'actions',
                 header: 'פעולות',
+                hideOnMobile: true,
                 render: (item) => (
                   <Button
                     variant="ghost"

@@ -108,6 +108,7 @@ export function AdminLeaderboard() {
               {
                 key: 'rank',
                 header: 'מקום',
+                mobileOrder: 1,
                 render: (item) => (
                   <div className="flex items-center gap-2">
                     {item.rank === 1 && <span className="text-2xl">🥇</span>}
@@ -125,6 +126,8 @@ export function AdminLeaderboard() {
               {
                 key: 'messengerName',
                 header: 'שם השליח',
+                mobileLabel: 'שליח',
+                mobileOrder: 2,
                 render: (item) => (
                   <div>
                     <p className="font-semibold text-gray-900">{item.messengerName}</p>
@@ -135,6 +138,8 @@ export function AdminLeaderboard() {
               {
                 key: 'totalDonors',
                 header: 'סה"כ לקוחות',
+                mobileLabel: 'לקוחות',
+                mobileOrder: 3,
                 render: (item) => (
                   <div className="text-center">
                     <p className="text-xl font-bold text-indigo-600">{item.totalDonors}</p>
@@ -144,6 +149,8 @@ export function AdminLeaderboard() {
               {
                 key: 'activeDonors',
                 header: 'לקוחות פעילים',
+                mobileLabel: 'פעילים',
+                mobileOrder: 4,
                 render: (item) => (
                   <div className="text-center">
                     <p className="text-lg font-semibold text-green-600">{item.activeDonors}</p>
@@ -153,6 +160,8 @@ export function AdminLeaderboard() {
               {
                 key: 'joinDate',
                 header: 'תאריך הצטרפות',
+                mobileLabel: 'הצטרף',
+                hideOnMobile: true,
                 render: (item) => (
                   <span className="text-sm text-gray-600">{item.joinDate}</span>
                 ),
@@ -160,6 +169,7 @@ export function AdminLeaderboard() {
               {
                 key: 'badge',
                 header: 'הישג',
+                mobileOrder: 5,
                 render: (item) => {
                   if (item.totalDonors >= 100) {
                     return <Badge variant="warning">⭐ מאה+</Badge>;
