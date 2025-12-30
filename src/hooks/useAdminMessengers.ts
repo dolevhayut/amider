@@ -173,47 +173,31 @@ export function useAdminMessengers() {
 
   const createMessenger = async (data: CreateMessengerData): Promise<{ success: boolean; error?: string }> => {
     try {
-      // 1. Create user in Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.admin.inviteUserByEmail(data.email, {
-        data: {
-          full_name: data.full_name,
-        },
-      });
+      // Get the current session token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error('No active session');
+      }
 
-      if (authError) throw authError;
-      if (!authData.user) throw new Error('Failed to create auth user');
-
-      const userId = authData.user.id;
-
-      // 2. Create user record
-      const { error: userError } = await supabase
-        .from('users')
-        .insert({
-          id: userId,
+      // Call the Edge Function to create messenger
+      const { data: functionData, error: functionError } = await supabase.functions.invoke('create-messenger', {
+        body: {
           email: data.email,
           full_name: data.full_name,
           phone: data.phone,
-          role: 'messenger',
-        });
-
-      if (userError) throw userError;
-
-      // 3. Create messenger record
-      const { error: messengerError } = await supabase
-        .from('messengers')
-        .insert({
-          user_id: userId,
-          plan_type: data.plan_type || '18', // Default to '18' if not provided
+          plan_type: data.plan_type || '18',
           landing_page_slug: data.landing_page_slug,
           commission_rate_one_time: data.commission_rate_one_time,
           commission_rate_monthly: data.commission_rate_monthly,
           custom_goal_text: data.custom_goal_text,
-          symbol: data.symbol || null, // Will be uploaded to bucket in the future
-          wallet_balance: 0,
-          is_active: true,
-        });
+          symbol: data.symbol || null,
+        },
+      });
 
-      if (messengerError) throw messengerError;
+      if (functionError) throw functionError;
+      if (!functionData?.success) {
+        throw new Error(functionData?.error || 'Failed to create messenger');
+      }
 
       // Refresh the list
       await fetchMessengers();
