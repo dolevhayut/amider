@@ -56,7 +56,7 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
   const validateStep = (step: Step): boolean => {
     switch (step) {
       case 1:
-        return !!(formData.full_name && formData.email && formData.phone);
+        return !!(formData.full_name && formData.phone);
       case 2:
         return true; // Commission rates have default values
       case 3:
@@ -188,12 +188,11 @@ export function AddMessengerModal({ isOpen, onClose, onSubmit, checkSlugAvailabi
               />
 
               <Input
-                label="אימייל *"
+                label="אימייל"
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 placeholder="email@example.com"
-                required
               />
 
               <Input

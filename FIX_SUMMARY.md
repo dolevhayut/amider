@@ -40,9 +40,9 @@ Created a secure Edge Function called `create-messenger` that:
 2. **Navigate to**: Admin > Messengers page
 3. **Click**: "צור שליח חדש" (Create New Messenger) button
 4. **Fill in the form**:
-   - Email: test-messenger@example.com
-   - Full Name: Test Messenger
-   - Phone: 0501234567
+   - Full Name: Test Messenger (required)
+   - Email: test-messenger@example.com (optional)
+   - Phone: 0501234567 (required)
    - Plan Type: 18 or 30
    - Landing Page Slug: test-messenger (must be unique)
    - Commission rates: 15 (both fields)

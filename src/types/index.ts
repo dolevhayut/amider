@@ -114,7 +114,7 @@ export interface MessengerWithStats {
 
 export interface CreateMessengerData {
   full_name: string;
-  email: string;
+  email?: string;
   phone: string;
   plan_type?: PlanType; // Will default to '18' in backend if not provided
   landing_page_slug: string;
