@@ -50,7 +50,8 @@ Created a secure Edge Function called `create-messenger` that:
 6. **Expected Result**: 
    - Success message appears
    - New messenger appears in the list
-   - Invitation email sent to the messenger
+   - If email provided: Invitation email sent to the messenger
+   - If no email: Messenger created without auth credentials (can be added later)
 
 ## Security Notes
 

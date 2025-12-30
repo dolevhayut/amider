@@ -40,9 +40,9 @@ git push origin main
 3. **Navigate to**: Admin > Messengers
 4. **Click**: "צור שליח חדש" (Create New Messenger)
 5. **Fill in the form**:
-   - Email: `test-messenger@example.com`
-   - Full Name: `Test Messenger`
-   - Phone: `0501234567`
+   - Full Name: `Test Messenger` (required)
+   - Email: `test-messenger@example.com` (optional - leave empty if not needed)
+   - Phone: `0501234567` (required)
    - Plan Type: `18`
    - Landing Page Slug: `test-messenger-123` (must be unique)
    - Commission Rate (One-time): `15`
